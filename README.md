@@ -1,4 +1,5 @@
-
+<h1>Status</h1>
+Project on hold, I am currently collaborating with AI (ChatGPT, Codex, and Copilot) to create an MCP Bridge for Visual Studio.  The MCP Bridge will allow me to use Codex in Visual Studio to upgrade and/or refactor for AI support and latest technologies
 <br>
 <p>
     <strong>BlogEngine</strong> is an open source blogging platform since 2007.<br>Easily customizable. Many free built-in Themes, Widgets, and Plugins.
