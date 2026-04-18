@@ -1,4 +1,5 @@
-﻿using App_Code;
+using App_Code;
+using BlogEngine.Core;
 using BlogEngine.Core.Data.Contracts;
 using BlogEngine.Core.Data.Models;
 using System;
@@ -45,15 +46,15 @@ public class PostsController : ApiController
         repository.Update(item, "update");
         return Request.CreateResponse(HttpStatusCode.OK);
     }
-	
-	[HttpPut]
+
+    [HttpPut]
     public HttpResponseMessage ProcessChecked([FromBody]List<PostDetail> items)
     {
         if (items == null || items.Count == 0)
             throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
 
         var action = Request.GetRouteData().Values["id"].ToString().ToLowerInvariant();
-      
+
         foreach (var item in items)
         {
             if (item.IsChecked)
@@ -65,7 +66,7 @@ public class PostsController : ApiController
                 else
                 {
                     repository.Update(item, action);
-                }	
+                }
             }
         }
 
@@ -79,5 +80,36 @@ public class PostsController : ApiController
             repository.Remove(gId);
 
         return Request.CreateResponse(HttpStatusCode.OK);
+    }
+
+    [HttpPost]
+    public HttpResponseMessage Reload(string id = "")
+    {
+        if (!WebUtils.CheckRightsForAdminPostPages(true))
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+
+        var previousOverride = global::BlogEngine.Core.Blog.InstanceIdOverride;
+
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                Guid blogId;
+                if (!Guid.TryParse(id, out blogId))
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid blog id");
+
+                if (global::BlogEngine.Core.Blog.GetBlog(blogId) == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Blog not found");
+
+                global::BlogEngine.Core.Blog.InstanceIdOverride = blogId;
+            }
+
+            global::BlogEngine.Core.Post.Reload();
+            return Request.CreateResponse(HttpStatusCode.OK, true);
+        }
+        finally
+        {
+            global::BlogEngine.Core.Blog.InstanceIdOverride = previousOverride;
+        }
     }
 }
