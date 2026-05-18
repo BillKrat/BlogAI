@@ -7,9 +7,14 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Configuration;
 
 public class PostsController : ApiController
 {
+    // Intended for local/scripted repo publishing only.
+    const string ReloadKeyHeaderName = "X-Blog-Reload-Key";
+    const string ReloadKeySettingName = "BlogEngine.ReloadEndpointKey";
+
     readonly IPostRepository repository;
 
     public PostsController(IPostRepository repository)
@@ -85,7 +90,7 @@ public class PostsController : ApiController
     [HttpPost]
     public HttpResponseMessage Reload(string id = "")
     {
-        if (!WebUtils.CheckRightsForAdminPostPages(true))
+        if (!CanReloadPosts())
             throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
         var previousOverride = global::BlogEngine.Core.Blog.InstanceIdOverride;
@@ -111,5 +116,29 @@ public class PostsController : ApiController
         {
             global::BlogEngine.Core.Blog.InstanceIdOverride = previousOverride;
         }
+    }
+
+    bool CanReloadPosts()
+    {
+        return WebUtils.CheckRightsForAdminPostPages(true) || HasValidReloadKey();
+    }
+
+    bool HasValidReloadKey()
+    {
+        var configuredKey = WebConfigurationManager.AppSettings[ReloadKeySettingName];
+        if (string.IsNullOrWhiteSpace(configuredKey))
+            return false;
+
+        IEnumerable<string> headerValues;
+        if (!Request.Headers.TryGetValues(ReloadKeyHeaderName, out headerValues))
+            return false;
+
+        foreach (var headerValue in headerValues)
+        {
+            if (string.Equals(headerValue, configuredKey, StringComparison.Ordinal))
+                return true;
+        }
+
+        return false;
     }
 }

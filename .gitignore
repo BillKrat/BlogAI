@@ -198,3 +198,6 @@ BlogEngine/BlogEngine.NET/App_Data/datastore/extensions/*.xml
 /BlogEngine/BlogEngine.Tests/.vs
 /.gitignore
 /BlogEngine/BlogEngine.NET/Properties/PublishProfiles/**
+/.vs
+/BlogEngine/BlogEngine.NET/connectionStrings.config
+/BlogEngine/BlogEngine.NET/appSettings.secrets.config

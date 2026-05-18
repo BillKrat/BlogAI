@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<connectionStrings>
+  <clear />
+  <add
+	name="BlogEngine"
+	connectionString="Data Source=YOUR_SQL_SERVER;Initial Catalog=YOUR_DATABASE;User ID=YOUR_DB_USER;Password=REPLACE_WITH_SECRET_PASSWORD;Encrypt=False;TrustServerCertificate=False;"
+	providerName="System.Data.SqlClient" />
+</connectionStrings>
