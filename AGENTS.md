@@ -41,3 +41,16 @@
   `architecture-rosetta-stone`, `BlogAI`, and `vs-mcp-bridge`.
 - Prefer updating the shared convention over adding per-repo special
   cases.
+
+## BlogAI-Specific Note (added 2026-07-19)
+
+This repo has neither `.project-context/` nor the legacy `INDEX.md` +
+`Sessions/` + `Topics/` layout the shared skills above expect — `lets-code`/
+`update-context` will correctly report "context not initialized" here per
+their own documented fallback. Unlike `vs-mcp-bridge`, there is no
+clearly established alternative convention to defer to instead: `docs/
+session-handoffs/` has only one old entry (2026-04-19), and this repo's
+own `README.md` says the project is "on hold." Before running
+`initialize-context` here, decide explicitly whether to build on the
+existing `session-handoffs/` precedent or adopt the shared
+`.project-context/` convention — don't default to either silently.
