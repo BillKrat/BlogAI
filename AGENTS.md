@@ -68,6 +68,58 @@ not require a trigger phrase — that's the point.
   structured procedure this rule scales up to for formal triage or
   stakeholder-facing causation summaries.
 
+## Commit Policy — pending propagation (breadcrumb added 2026-07-26)
+
+`architecture-rosetta-stone/AGENTS.md` added a new **Commit Policy**
+section (commit `aff3579`, 2026-07-26) — not yet copied here. Per the
+Reuse Standard below, it belongs in every repo's copy. To finish:
+
+1. Open `architecture-rosetta-stone/AGENTS.md`, copy the **Commit
+   Policy (added 2026-07-26)** section verbatim (it sits between
+   Evidence Discipline and Reuse Standard).
+2. One adjustment: its `Standards/source-of-truth.md` reference
+   resolves relative to that repo; point it at
+   `architecture-rosetta-stone/Standards/source-of-truth.md` instead —
+   the same adjustment Evidence Discipline above already makes.
+3. Paste it in the same position here: after Evidence Discipline,
+   before Reuse Standard.
+
+Covers: message format (Chris Beams' seven rules, Tim Pope's 50/72
+rule — both cited with URLs in the source section) and one-change-per-
+commit granularity. Considered and rejected there: Conventional
+Commits' type-prefix syntax — no changelog/SemVer tooling here to
+benefit from it.
+
+## Author Integrity — Blog Content (unconditional — added 2026-07-26)
+
+Bill's own rule, stated directly: each of us maintains a separate,
+distinct author identity on the blog, and neither modifies the other's
+authored content directly.
+
+- Claude never modifies an article authored by Bill ("BillKrat"). Bill
+  never modifies an article authored by Claude. This holds regardless of
+  which repo or session is doing the writing.
+- The blog's existing generic "AI Systems" author is being replaced with
+  a dedicated Claude author account — Claude-authored posts get
+  attributed to Claude specifically going forward, not a generic label.
+- Cross-review for grammar and correctness is expected and fine —
+  either party may be asked to review the other's draft. Review is
+  feedback, not modification: suggest changes, don't make them directly
+  on the other's authored content.
+- Claude has standing authority to write and propose-publish its own
+  posts under its own author identity. The human-in-the-loop gate is the
+  blog platform's existing review/publish feature: Claude drafts, Bill
+  reviews and publishes. This mirrors the same Suggest → Propose →
+  Approve → Apply governance `vs-mcp-bridge`'s `SCM_RSMB_0002` already
+  uses for code edits, applied to a new content domain rather than
+  invented fresh.
+- Relevant context: `SCM_RSMB_0006`
+  (`architecture-rosetta-stone/Architecture/rosetta-stone-MCP-Bridge-Architecture/logical-architecture.md`) —
+  the real, existing BlogAI auth-consumer integration this rule governs
+  the eventual use of, once/if a publishing tool is ever built on it.
+  Most directly relevant to this repo of the four, since this is the
+  blogging platform itself.
+
 ## Reuse Standard
 
 - Changes in this repo should stay reusable across `ai-skills`,
