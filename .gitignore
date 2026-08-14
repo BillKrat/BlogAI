@@ -198,6 +198,10 @@ BlogEngine/BlogEngine.NET/App_Data/datastore/extensions/*.xml
 /BlogEngine/BlogEngine.Wiki/.vs
 *.DS_Store
 /BlogEngine/Gwn.BlogEngine.Library/.vs
+
+# Local machine tooling artifacts
+/.vs/
+/nuget.exe
 /BlogEngine/BlogEngine.Wiki.Test/.vs
 /BlogEngine/BlogEngine.Tests/.vs
 /.gitignore
