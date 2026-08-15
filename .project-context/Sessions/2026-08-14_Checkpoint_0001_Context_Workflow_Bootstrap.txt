@@ -1,0 +1,79 @@
+========================================================================
+PROJECT CHECKPOINT 0001
+========================================================================
+
+File:
+2026-08-14_Checkpoint_0001_Context_Workflow_Bootstrap.txt
+
+Checkpoint:
+0001
+
+Date:
+2026-08-14
+
+Project:
+BlogAI / BlogEngine
+
+Branch:
+master
+
+Checkpoint Title:
+Context Workflow Bootstrap
+
+Project Status:
+Legacy support workflow is now stabilized for this repository: build prerequisites were validated, repository hosting moved to a private GitHub repo, and standardized session-context tracking was initialized.
+
+Repository:
+https://github.com/BillKrat/BlogAI
+
+Git Commit:
+(pending — filled in after commit)
+
+Previous Checkpoint:
+none
+
+Next Objective:
+Set up and validate GitHub-driven deployment from `master` to SmarterASP for `www.adventuresOnTheEdge.net`.
+
+========================================================================
+SESSION HANDOFF
+========================================================================
+
+OBJECTIVES COMPLETED
+--------------------
+- Verified required frameworks/tooling and restored dependencies so the full solution builds on the new machine.
+- Confirmed GitHub repo exists as private and remotes/auth are configured.
+- Added ignore rules for root `.vs/` and `nuget.exe` to keep local noise out of git.
+- Created `Web.config.example` from prior default XML-based config baseline.
+- Updated `AGENTS.md` routing and initialized `.project-context/` workflow structure.
+
+REPOSITORY / ENVIRONMENT STATE
+------------------------------
+- Branch: `master` tracking `origin/master`.
+- Build state: successful after restore.
+- `Web.config` is intentionally ignored for secret handling in this repo.
+- Context structure now exists at `.project-context/` with `INDEX.md`, `Sessions/`, and `Topics/`.
+
+TOPICS TOUCHED THIS SESSION
+---------------------------
+- `Topics/legacy-operations-continuity.md` — established durable current state, deployment direction, and next objective.
+
+NEXT SESSION
+============
+1) Start with "Let's code" to load this context and summarize status.
+2) Implement GitHub Actions deployment workflow for SmarterASP on `master`.
+3) Configure required GitHub secrets and run a deployment validation push.
+
+END OF SESSION CHECKLIST
+========================
+[ ] Add deployment workflow file for SmarterASP
+[ ] Add required GitHub repo secrets
+[ ] Validate deployment to https://www.adventuresOnTheEdge.net
+
+SESSION SUMMARY
+===============
+This session established a reliable continuity baseline for legacy support by ensuring the solution compiles, moving work to a private GitHub repository, and bootstrapping structured context files so subsequent sessions can resume with a deterministic summary and a clear next deployment objective.
+
+========================================================================
+END CHECKPOINT 0001
+========================================================================

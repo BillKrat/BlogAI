@@ -14,8 +14,8 @@
 - For new context-bootstrap requests such as "initialize context," "set
   up project context," "bootstrap context," or "prepare this repo for
   lets-code/update-context," route to `initialize-context`.
-- For session-end requests such as "update context," "save the
-  session," "checkpoint this," or "wrap up," route to
+- For session-end requests such as "let's update context," "update
+  context," "save the session," "checkpoint this," or "wrap up," route to
   `update-context`.
 - For skill-backup requests such as "sync skills," "backup skills," or
   "restore skills," route to `sync-skills`.
@@ -127,15 +127,13 @@ authored content directly.
 - Prefer updating the shared convention over adding per-repo special
   cases.
 
-## BlogAI-Specific Note (added 2026-07-19)
+## BlogAI-Specific Context Workflow
 
-This repo has neither `.project-context/` nor the legacy `INDEX.md` +
-`Sessions/` + `Topics/` layout the shared skills above expect — `lets-code`/
-`update-context` will correctly report "context not initialized" here per
-their own documented fallback. Unlike `vs-mcp-bridge`, there is no
-clearly established alternative convention to defer to instead: `docs/
-session-handoffs/` has only one old entry (2026-04-19), and this repo's
-own `README.md` says the project is "on hold." Before running
-`initialize-context` here, decide explicitly whether to build on the
-existing `session-handoffs/` precedent or adopt the shared
-`.project-context/` convention — don't default to either silently.
+- This repo uses the shared `.project-context/` convention for durable
+  session state.
+- "Let's code" means: load context from `.project-context/INDEX.md` and
+  the latest checkpoint, provide a concise summary, then wait for the
+  next implementation objective.
+- "Let's update context" means: persist the session, avoid dangling
+  intended work, update context artifacts, commit checkpoint/context
+  changes, and push when upstream is configured.
