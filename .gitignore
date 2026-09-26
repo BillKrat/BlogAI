@@ -201,3 +201,6 @@ BlogEngine/BlogEngine.NET/App_Data/datastore/extensions/*.xml
 /.vs
 /BlogEngine/BlogEngine.NET/connectionStrings.config
 /BlogEngine/BlogEngine.NET/appSettings.secrets.config
+
+# Local tool binary (re-download from nuget.org)
+nuget.exe

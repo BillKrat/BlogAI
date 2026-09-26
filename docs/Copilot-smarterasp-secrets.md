@@ -106,4 +106,4 @@ After deployment, verify:
 - Commit only the `.example` files.
 - Keep the real `connectionStrings.config` and `appSettings.secrets.config` local or server-only.
 - End each work session with all intended changes committed so the repository can be restored to a known working state.
-- Push only after the code is functional and the related documentation is complete.
+- End each session with the branch committed and pushed; merge to a deploy branch only when the code is stable (see the core guardrails in `AGENTS.md`).

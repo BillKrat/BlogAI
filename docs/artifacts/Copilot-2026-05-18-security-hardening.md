@@ -8,8 +8,8 @@ This session removed source-controlled secrets from the BlogEngine.NET web appli
 - Externalized `BlogEngine.ReloadEndpointKey` from `BlogEngine/BlogEngine.NET/Web.Config` into `appSettings.secrets.config`.
 - Added `connectionStrings.config.example` and `appSettings.secrets.config.example` as safe templates.
 - Added Git ignore protection for the real secret files.
-- Added `docs/SmarterASP-Secrets.md` to document the SmarterASP deployment pattern.
-- Reduced `README.md` to a lightweight link index and established `AI_Start.md` as the canonical session entry document.
+- Added `docs/Copilot-smarterasp-secrets.md` to document the SmarterASP deployment pattern.
+- Reduced `README.md` to a lightweight link index and established `AI_Start.md` (now `AGENTS.md`) as the canonical session entry document.
 
 ## Why
 The goal is to keep credentials and deployment secrets out of source control while giving developers a repeatable way to configure local development and SmarterASP deployments.
@@ -19,10 +19,9 @@ The goal is to keep credentials and deployment secrets out of source control whi
 - Deployment to SmarterASP was not performed in this session; that validation will happen later using the documented steps.
 
 ## Artifacts
-- Mermaid sequence diagram: `docs/diagrams/smarterasp-secret-config-flow-20260518.mmd`
-- Deployment runbook: `docs/SmarterASP-Secrets.md`
-- Session entry document: `AI_Start.md`
-- Session handoff document: `AI_Stop.md`
+- Mermaid sequence diagram: `docs/Copilot-smarterasp-secret-config-flow.mmd`
+- Deployment runbook: `docs/Copilot-smarterasp-secrets.md`
+- Session entry document: `AGENTS.md` (replaced `AI_Start.md`/`AI_Stop.md` on 2026-09-25)
 
 ## Follow-up
 The next planning task is to define how the BlogAI rewrite of the current BlogEngine.NET application will begin, using the committed and documented state from this session as the baseline.
