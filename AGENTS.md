@@ -22,8 +22,8 @@ Start with the workspace `AGENTS.md` (`M:\Dev\repos\AGENTS.md`) if you have it. 
 
 Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Framework 4.8), running **live** at https://AdventuresOnTheEdge.net on SQL Server. It stays on this stack while `ai-research-blog` (the planned replacement) matures. **Do not modify it as part of new-stack work;** anything touching this repo needs an explicit request from the human.
 
-- **Build:** open `BlogEngine.sln` in Visual Studio 2026; the web host is `BlogEngine/BlogEngine.NET`.
-- **Secrets are external.** `connectionStrings.config` and `appSettings.secrets.config` sit next to `Web.Config`, are git-ignored, and have `.example` templates. Setup and SmarterASP deployment: [docs/Copilot-smarterasp-secrets.md](docs/Copilot-smarterasp-secrets.md). Never commit real values or publish profiles with passwords.
+- **Build/run:** open `BlogEngine.sln` in Visual Studio 2026; the web host is `BlogEngine/BlogEngine.NET` (or MSBuild it and run x86 IIS Express with `/path:` given as a native Windows path; Git Bash mangles it into a 404).
+- **Default config is XML storage** (2026-09-26): `Web.Config` runs from a fresh clone with no SQL or secret files (verified under IIS Express, HTTP 200). SQL is opt-in: copy `Web.Config.SQL` over `Web.Config`. **SQL secrets are external:** `connectionStrings.config` and `appSettings.secrets.config` sit next to `Web.Config`, are git-ignored, and have `.example` templates. Setup and SmarterASP deployment: [docs/Copilot-smarterasp-secrets.md](docs/Copilot-smarterasp-secrets.md). Never commit real values or publish profiles with passwords.
 - **Data:** `be_`-prefixed tables scoped by a `BlogID` guid (`be_Posts`, `be_Categories`, `be_PostCategory`, `be_PostTag`; soft delete via `IsDeleted`; plain `datetime` columns). DDL: `BlogEngine/BlogEngine.NET/setup/SQLServer/Setup.sql` (UTF-16). Query shapes: `BlogEngine/BlogEngine.Core/Providers/DbProvider/DbBlogProvider.cs`. Only deviation from core BlogEngine: a "GwnWiki" extension (`setup/BillKrat-Upgrade.2018.12.30.sql`).
 - **Publishing gotcha:** direct SQL upserts do not update BlogEngine's in-memory post cache. Call `POST /api/posts/reload/{blogId}` afterwards. Details: [docs/Copilot-post-cache-reload.md](docs/Copilot-post-cache-reload.md). The publishing SQL scripts came from `vs-mcp-bridge`, a retired ChatGPT-era VSIX project (.NET 4.7) that is dead and not in this workspace; treat that publishing path as legacy.
 - **Extension model:** `BlogEngine.Core/Extensions.cs` and `BlogEngine.Wiki`, the precedent for the MEF drop-in tools planned in `ai-research-blog`.
@@ -32,9 +32,9 @@ Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Fr
 
 ## Claude
 
-**Last worked on (2026-09-26):** reviewed the consolidated branches: no conflict markers, core block identical to the canonical copy, lint passes, secrets still git-ignored, docs index complete. Refreshed the Branches note. Before that (2026-09-25): folded Copilot's `AI_Start.md`/`AI_Stop.md` and docs into this standard.
+**Last worked on (2026-09-26):** made the repo runnable from a clean clone: `Web.Config` back to XML providers (no `connectionStrings.config` needed), SQL variant moved to `Web.Config.SQL`, removed the committed `machineKey`, `customErrors` back to RemoteOnly, README quick start. Also reviewed the consolidated branches: no conflict markers, core block identical to the canonical copy, lint passes, secrets still git-ignored, docs index complete. Refreshed the Branches note. Before that (2026-09-25): folded Copilot's `AI_Start.md`/`AI_Stop.md` and docs into this standard.
 
-**Remaining:** none queued. Do not modify this repo unless the human asks.
+**Remaining:** flesh out and actually run the SmarterASP secrets deployment (the runbook still describes SQL secrets sitting in `Web.Config`, which is now `Web.Config.SQL`; update it). Human to decide whether to rotate the live site's machineKey (old keys are in public git history). Do not otherwise modify this repo unless asked.
 
 ## Copilot
 

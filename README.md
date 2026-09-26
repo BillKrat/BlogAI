@@ -11,6 +11,15 @@ This repo is set up for local development and experimentation. See the setup
 instructions under `BlogEngine/BlogEngine.NET/setup/` for provider-specific configuration,
 and review the security notes below before deploying anywhere beyond your local machine.
 
+## Quick start (no SQL, no secrets)
+
+The checked-in `BlogEngine/BlogEngine.NET/Web.Config` uses the XML provider, so the site runs from a fresh clone with no database and no credential files:
+
+1. Open `BlogEngine.sln` in Visual Studio and run `BlogEngine.NET` (IIS Express), or build with MSBuild and point IIS at `BlogEngine/BlogEngine.NET`.
+2. Browse to the site. Content lives in `App_Data` (XML files). The default admin login is the stock BlogEngine one from `App_Data/users.xml`; change it before anything beyond local use.
+
+For SQL Server storage, copy `Web.Config.SQL` over `Web.Config`, then create `connectionStrings.config` (and optionally `appSettings.secrets.config`) from the `.example` files next to it. Both are git-ignored. See [docs/Copilot-smarterasp-secrets.md](docs/Copilot-smarterasp-secrets.md).
+
 ## Security & Public Release Notes
 
 This repository contains sample/template configuration and data files used for local
