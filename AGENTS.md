@@ -27,12 +27,12 @@ Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Fr
 - **Data:** `be_`-prefixed tables scoped by a `BlogID` guid (`be_Posts`, `be_Categories`, `be_PostCategory`, `be_PostTag`; soft delete via `IsDeleted`; plain `datetime` columns). DDL: `BlogEngine/BlogEngine.NET/setup/SQLServer/Setup.sql` (UTF-16). Query shapes: `BlogEngine/BlogEngine.Core/Providers/DbProvider/DbBlogProvider.cs`. Only deviation from core BlogEngine: a "GwnWiki" extension (`setup/BillKrat-Upgrade.2018.12.30.sql`).
 - **Publishing gotcha:** direct SQL upserts do not update BlogEngine's in-memory post cache. Call `POST /api/posts/reload/{blogId}` afterwards. Details: [docs/Copilot-post-cache-reload.md](docs/Copilot-post-cache-reload.md). The publishing SQL scripts came from `vs-mcp-bridge`, a retired ChatGPT-era VSIX project (.NET 4.7) that is dead and not in this workspace; treat that publishing path as legacy.
 - **Extension model:** `BlogEngine.Core/Extensions.cs` and `BlogEngine.Wiki`, the precedent for the MEF drop-in tools planned in `ai-research-blog`.
-- **Branches:** `master-blogai` is the working branch with the real history. `master` is a separate two-commit public snapshot with unrelated history (no common ancestor), and `master_original` is the upstream BlogEngine merge. The human is reviewing which is which (one may be the upstream-BlogEngine or fresh-install-tutorial branch) and will consolidate to a single `master`. Take no branch action, including the stray `context-standard` branch, until told.
+- **Branches:** consolidated by the human on 2026-09-26. `master` is the single line of history (the former `master-blogai` work plus the context standard); the stray `context-standard` and `master_original` branches are gone. An alternate Copilot line (`.project-context/` workflow, `Web.config.example`) survives only as the tag `checkpoint-0001`; it is not on `master` and is reference only. Work on a branch off `master`, per the core rules.
 - **Superseded plan:** the May 2026 idea of a side-by-side ASP.NET Core rewrite (DI + MEF, auth-first, `api.global-webnet.com`) is now the `ai-research-blog` repo; see its `docs/Claude-architecture-decisions.md`.
 
 ## Claude
 
-**Last worked on (2026-09-25):** context restructure; folded Copilot's `AI_Start.md`/`AI_Stop.md` and docs into this standard.
+**Last worked on (2026-09-26):** reviewed the consolidated branches: no conflict markers, core block identical to the canonical copy, lint passes, secrets still git-ignored, docs index complete. Refreshed the Branches note. Before that (2026-09-25): folded Copilot's `AI_Start.md`/`AI_Stop.md` and docs into this standard.
 
 **Remaining:** none queued. Do not modify this repo unless the human asks.
 
