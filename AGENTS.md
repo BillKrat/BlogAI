@@ -39,9 +39,9 @@ Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Fr
 
 ## Copilot
 
-**Last worked on (2026-09-27):** diagnosed and fixed `BlogEngine.NET` failing to run under IIS Express in VS 2026 Insiders (immediate exit, "site can't be reached"): a stray `AspNetCoreModuleV2` global module registration in the machine-local `.vs/BlogEngine/config/applicationhost.config` was crashing IIS Express at startup; removed it, and fixed `.csproj.user` launch settings (`AlwaysStartWebServerOnDebug`, `StartPageUrl`). Details: [docs/Copilot-iisexpress-startup-fix.md](docs/Copilot-iisexpress-startup-fix.md). Earlier (2026-05-18): externalized the SQL connection string and reload key from `Web.Config`, added the secret templates and the SmarterASP runbook, and wrote the security-hardening review. Also the post-cache reload endpoint (2026-04).
+[docs/Copilot-iisexpress-startup-fix.md](docs/Copilot-iisexpress-startup-fix.md)
 
-**Remaining:** the SmarterASP deployment of the secrets pattern was documented but never executed or validated; use the runbook when ready. (Use64BitIISExpress stays `false`; see the corrected section 1 of the fix doc.)
+**Remaining:** the SmarterASP deployment of the secrets pattern was documented but never executed or validated; use the runbook when ready. (`Use64BitIISExpress` stays `false`; see the corrected section 1 of the fix doc.)
 
 ## LM Studio
 
