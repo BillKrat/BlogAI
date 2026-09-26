@@ -16,12 +16,16 @@ If you launch IIS Express by hand, give `/path:` as a native Windows path (`M:\.
 
 ## SQL Server storage
 
-Copy `BlogEngine/BlogEngine.NET/Web.Config.SQL` over `Web.Config`, then create these two git-ignored files next to it from the `.example` templates:
+1. Create an empty database and run, in order, `BlogEngine/BlogEngine.NET/setup/SQLServer/Setup.sql` and then `BlogEngine/BlogEngine.NET/setup/BillKrat-Upgrade.2026.09.26.sql` (adds the `be_Users.Comment` column this fork's code needs; idempotent). For a local test database, LocalDB works: `sqlcmd -S "(localdb)\MSSQLLocalDB" -d <db> -i <script>` (no `-f` option; the scripts are read as-is). `BillKrat-Upgrade.2018.12.30.sql` is the optional GwnWiki extension.
+2. Copy `BlogEngine/BlogEngine.NET/Web.Config.SQL` over `Web.Config`.
+3. Create these git-ignored files next to it from the `.example` templates:
+   - `connectionStrings.config`: your connection string (LocalDB: `Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=<db>;Integrated Security=True;`).
+   - `appSettings.secrets.config` (optional): `BlogEngine.ReloadEndpointKey`, which protects `POST /api/posts/reload/{blogId}` (see [docs/Copilot-post-cache-reload.md](docs/Copilot-post-cache-reload.md)).
+4. Sign in with the stock `admin` / `admin` and change it immediately.
 
-- `connectionStrings.config`: your SQL Server connection string.
-- `appSettings.secrets.config` (optional): `BlogEngine.ReloadEndpointKey`, which protects `POST /api/posts/reload/{blogId}` (see [docs/Copilot-post-cache-reload.md](docs/Copilot-post-cache-reload.md)).
+`Web.Config.SQL` contains no credentials and no `machineKey`. Do not commit a `Web.Config` that holds real values (`git update-index --skip-worktree` on `Web.Config` while testing keeps it out of commits).
 
-`Web.Config.SQL` contains no credentials and no `machineKey`. Do not commit a `Web.Config` that holds real values.
+**Windows on ARM:** run the site under the 32-bit (x86) IIS Express (in Visual Studio, turn off Tools > Options > Projects and Solutions > Web Projects > "Use the 64-bit version of IIS Express"). SQL Server LocalDB ships x86 and x64 client libraries but no ARM64 one, so an ARM64 IIS Express fails with `Unable to load the SQLUserInstance.dll` / `%1 is not a valid Win32 application`. SmarterASP also runs this site in a 32-bit pool.
 
 ## Security notes
 
