@@ -16,7 +16,7 @@ If you launch IIS Express by hand, give `/path:` as a native Windows path (`M:\.
 
 ## SQL Server storage
 
-1. Create an empty database and run, in order, `BlogEngine/BlogEngine.NET/setup/SQLServer/Setup.sql` and then `BlogEngine/BlogEngine.NET/setup/BillKrat-Upgrade.2026.09.26.sql` (adds the `be_Users.Comment` column this fork's code needs; idempotent). For a local test database, LocalDB works: `sqlcmd -S "(localdb)\MSSQLLocalDB" -d <db> -i <script>` (no `-f` option; the scripts are read as-is). `BillKrat-Upgrade.2018.12.30.sql` is the optional GwnWiki extension.
+1. Create an empty database and run, in order, `BlogEngine/BlogEngine.NET/setup/SQLServer/Setup.sql` and then `BlogEngine/BlogEngine.NET/setup/BillKrat-Upgrade.2026.09.26.sql` (adds the `be_Users.Comment` column this fork's code needs; idempotent). For a local test database, LocalDB works: `sqlcmd -S "(localdb)\MSSQLLocalDB" -d <db> -i <script>` (no `-f` option; the scripts are read as-is). Also run `BlogEngine/BlogEngine.NET/setup/BillKrat-Upgrade.2018.12.30.sql` (creates the `Contact` table and the GwnWiki extension; `DbMembershipProvider` queries `Contact`, so it is required, not optional; run it once, it is not idempotent).
 2. Copy `BlogEngine/BlogEngine.NET/Web.Config.SQL` over `Web.Config`.
 3. Create these git-ignored files next to it from the `.example` templates:
    - `connectionStrings.config`: your connection string (LocalDB: `Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=<db>;Integrated Security=True;`).
