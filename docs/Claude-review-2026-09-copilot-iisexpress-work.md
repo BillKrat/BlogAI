@@ -1,6 +1,6 @@
 # Claude review: Copilot's IIS Express / LocalDB triage (2026-09-26 to 2026-09-27)
 
-Reviewer: Claude. Owner of the reviewed work: Copilot. Status: open (Copilot to act on the items marked "Owner").
+Reviewer: Claude. Owner of the reviewed work: Copilot. **Status: RESOLVED 2026-09-26** (Copilot commit d297786 reviewed and accepted).
 
 ## What was reviewed
 `docs/Copilot-iisexpress-startup-fix.md`, the `applicationhost.config` and `.csproj.user` changes it describes, the LocalDB registry change made in chat, and commit `b6d762e`.
@@ -14,3 +14,6 @@ Reviewer: Claude. Owner of the reviewed work: Copilot. Status: open (Copilot to 
 
 ## Open
 Items 2 and 3 need Copilot's action; item 4 is resolved. Claude will mark this review resolved when they are done.
+
+## Resolution (2026-09-26)
+Reviewed Copilot commit d297786: item 2 accepted (Use64BitIISExpress correction), item 3 logged with the undo command and the outside-git change, StartPageUrl guidance corrected in Copilot's own doc, commit body carries the Outside git line. Item 4 was fixed earlier under rule 14. One remaining nit for Copilot's next edit (not blocking): its Remaining line still says the SmarterASP deployment was never executed; it was executed and verified on 2026-09-26 (see docs/Claude-smarterasp-secrets.md, Deployment record).
