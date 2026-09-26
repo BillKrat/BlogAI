@@ -1,54 +1,41 @@
 # BlogAI
 
-BlogAI is a fork of the open-source [BlogEngine.NET](https://github.com/BlogEngine/BlogEngine.NET)
-platform, a lightweight, extensible blogging engine built on ASP.NET (.NET Framework 4.8),
-with supporting components targeting .NET Core 2.1. It provides the core blogging
-features you'd expect — posts, pages, comments, themes, widgets, and a plugin/extension
-model — along with pluggable data providers (XML, SQL Server, MySQL, SQLite, SQL CE) so
-it can run against a variety of storage backends.
+BlogAI is a fork of [BlogEngine.NET](https://github.com/BlogEngine/BlogEngine.NET) 3.3.6, a blogging engine on ASP.NET (.NET Framework 4.8): posts, pages, comments, themes, widgets, and an extension model, with pluggable storage (XML, SQL Server, and others under `BlogEngine/BlogEngine.NET/setup/`). It runs live at https://adventuresontheedge.net on SQL Server.
 
-This repo is set up for local development and experimentation. See the setup
-instructions under `BlogEngine/BlogEngine.NET/setup/` for provider-specific configuration,
-and review the security notes below before deploying anywhere beyond your local machine.
+**Status: legacy.** It is maintained only until its replacement, [`ai-research-blog`](https://github.com/BillKrat/ai-research-blog), is ready. Expect fixes, not features.
 
 ## Quick start (no SQL, no secrets)
 
-The checked-in `BlogEngine/BlogEngine.NET/Web.Config` uses the XML provider, so the site runs from a fresh clone with no database and no credential files:
+The checked-in `BlogEngine/BlogEngine.NET/Web.Config` uses the XML provider, so a fresh clone runs with no database and no credential files.
 
 1. Open `BlogEngine.sln` in Visual Studio and run `BlogEngine.NET` (IIS Express), or build with MSBuild and point IIS at `BlogEngine/BlogEngine.NET`.
-2. Browse to the site. Content lives in `App_Data` (XML files). The default admin login is the stock BlogEngine one from `App_Data/users.xml`; change it before anything beyond local use.
+2. Browse to the site. Content lives in `BlogEngine/BlogEngine.NET/App_Data` (XML files).
+3. Sign in with the stock BlogEngine admin account from `App_Data/users.xml` and **change its password immediately**; it is a well-known default.
 
-For SQL Server storage, copy `Web.Config.SQL` over `Web.Config`, then create `connectionStrings.config` (and optionally `appSettings.secrets.config`) from the `.example` files next to it. Both are git-ignored. See [docs/Copilot-smarterasp-secrets.md](docs/Copilot-smarterasp-secrets.md).
+If you launch IIS Express by hand, give `/path:` as a native Windows path (`M:\...`), from PowerShell or cmd. Git Bash rewrites it and every request returns 404.
 
-## Security & Public Release Notes
+## SQL Server storage
 
-This repository contains sample/template configuration and data files used for local
-development and setup. Before deploying or using this project in any environment
-beyond local testing, take the following steps:
+Copy `BlogEngine/BlogEngine.NET/Web.Config.SQL` over `Web.Config`, then create these two git-ignored files next to it from the `.example` templates:
 
-- **Never commit `App_Data` or runtime config with real credentials.** The files under
-  `BlogEngine/BlogEngine.NET/App_Data/**` and `BlogEngine/BlogEngine.NET/Web.config`
-  are excluded via `.gitignore` and should only ever contain sanitized placeholder
-  values in source control.
-- **Regenerate the ASP.NET `machineKey`** (`validationKey` / `decryptionKey`) in your
-  own `Web.config` before deployment. The values shipped in `Web.config.example`,
-  `Web.Config.SQL`, and the files under `setup/*` are placeholders
-  (`CHANGE_ME`) and must never be used in a real deployment.
-- **Rotate admin credentials before production use.** The default admin user/password
-  hash and profile data in `App_Data/users.xml` and `App_Data/profiles/admin.xml` are
-  placeholders and must be replaced with your own values before running the site.
-- **Purge secrets from git history before making a private repository public.** If any
-  real secrets, credentials, or machine keys were ever committed to this repository's
-  history, they must be removed from history (e.g., using `git filter-repo` or the BFG
-  Repo-Cleaner) prior to publishing, since sanitizing the current file contents alone
-  does not remove values from prior commits.
+- `connectionStrings.config`: your SQL Server connection string.
+- `appSettings.secrets.config` (optional): `BlogEngine.ReloadEndpointKey`, which protects `POST /api/posts/reload/{blogId}` (see [docs/Copilot-post-cache-reload.md](docs/Copilot-post-cache-reload.md)).
+
+`Web.Config.SQL` contains no credentials and no `machineKey`. Do not commit a `Web.Config` that holds real values.
+
+## Security notes
+
+- **Secrets stay out of git.** Only the `.example` templates are committed. Never commit real connection strings, keys, or publish profiles with passwords.
+- **`machineKey`:** the repo config has none, so ASP.NET generates one per app. If you set your own, keep it on the host only. Two keys for the live site were committed in May 2026 and remain in public history; they are treated as compromised and must not be reused (details: [docs/Claude-smarterasp-secrets.md](docs/Claude-smarterasp-secrets.md)).
+- **Admin credentials:** replace the default admin account before any use beyond local testing.
+- **Errors:** `customErrors` is `RemoteOnly`; do not set it to `Off` in production.
+- `App_Data` holds the sample XML site content; do not put real user data or credentials there and commit it.
+
+## Deployment
+
+Deploying to SmarterASP.net is documented in [docs/Claude-smarterasp-secrets.md](docs/Claude-smarterasp-secrets.md), driven through the SmarterASP MCP tools.
 
 ## Links
 
-- [AGENTS.md](AGENTS.md) - AI context index: repo state, per-AI sections, docs index.
-- [SmarterASP secret configuration](docs/Copilot-smarterasp-secrets.md) - configure and deploy `connectionStrings.config` and `appSettings.secrets.config` for SmarterASP.net.
-- [BlogEngine website](https://blogengine.io/)
-- [BlogEngine getting started docs](https://blogengine.io/support/get-started/)
-- [BlogEngine themes](https://blogengine.io/themes/)
-- [BlogEngine custom design theme](https://blogengine.io/themes/custom/)
-- [BlogEngine support](https://blogengine.io/support/)
+- [AGENTS.md](AGENTS.md): AI context index (repo state, per-AI sections, docs index).
+- [BlogEngine website](https://blogengine.io/) · [getting started](https://blogengine.io/support/get-started/) · [themes](https://blogengine.io/themes/) · [support](https://blogengine.io/support/)

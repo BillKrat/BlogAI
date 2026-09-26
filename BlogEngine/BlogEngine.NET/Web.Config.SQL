@@ -67,7 +67,7 @@
         <add name="HttpGet"/>
       </protocols>
     </webServices>
-    <compilation debug="true" targetFramework="4.8">
+    <compilation debug="false" targetFramework="4.8">
       <assemblies>
         <add assembly="System.Management, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
         <add assembly="System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A"/>
