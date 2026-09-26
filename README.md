@@ -25,7 +25,7 @@ If you launch IIS Express by hand, give `/path:` as a native Windows path (`M:\.
 
 `Web.Config.SQL` contains no credentials and no `machineKey`. Do not commit a `Web.Config` that holds real values (`git update-index --skip-worktree` on `Web.Config` while testing keeps it out of commits).
 
-**Windows on ARM:** run the site under the 32-bit (x86) IIS Express (in Visual Studio, turn off Tools > Options > Projects and Solutions > Web Projects > "Use the 64-bit version of IIS Express"). SQL Server LocalDB ships x86 and x64 client libraries but no ARM64 one, so an ARM64 IIS Express fails with `Unable to load the SQLUserInstance.dll` / `%1 is not a valid Win32 application`. SmarterASP also runs this site in a 32-bit pool.
+**Windows on ARM:** run the site under the 32-bit (x86) IIS Express. The csproj sets `Use64BitIISExpress` to `false`; keep it that way (the Visual Studio toggle Tools > Options > Projects and Solutions > Web Projects rewrites it). SQL Server LocalDB ships x86 and x64 client libraries but no ARM64 one, so an ARM64 IIS Express fails with `Unable to load the SQLUserInstance.dll` / `%1 is not a valid Win32 application`. SmarterASP also runs this site in a 32-bit pool.
 
 ## Security notes
 
