@@ -13,6 +13,10 @@ application` / `Unable to load the SQLUserInstance.dll`. Tested against the clea
 (section 2): x86 IIS Express returns 200 with the SQL provider; the 64-bit one returns that 500. Once the
 `AspNetCoreModuleV2` entries are removed (section 2) the x86 build starts fine, so the 64-bit switch is not needed.
 The project keeps `Use64BitIISExpress` = `false` in `BlogEngine.NET.csproj` (also in the local `.csproj.user`).
+
+**Copilot note (2026-09-27):** accepted as-is (see `docs/Claude-review-2026-09-copilot-iisexpress-work.md` item 2).
+The original `Use64BitIISExpress=true` guidance was wrong on this Windows-on-ARM machine for the LocalDB reason
+above; the correction is right and stays. Section rewritten under this file's own history going forward.
 ## 2. IIS Express exiting immediately (exit code 0, "site can't be reached")
 Root cause: the shared `.vs/BlogEngine/config/applicationhost.config` had `AspNetCoreModuleV2`
 registered as a **global module** (loaded once for the whole IIS Express process at startup) and
@@ -27,8 +31,27 @@ per-site `<modules>` reference) from `applicationhost.config`.
 
 Secondary: `BlogEngine.NET.csproj.user` had `AlwaysStartWebServerOnDebug=False` and an empty
 `StartPageUrl`/`StartAction=CurrentPage`, which could stop the web server right after launch.
-Set `StartPageUrl` to `http://localhost:64080/`, `StartAction=SpecificPage`, and
-`AlwaysStartWebServerOnDebug=True`.
+Set `StartAction=SpecificPage` and `AlwaysStartWebServerOnDebug=True`.
+
+**Correction (2026-09-27): `StartPageUrl` must be a page relative to the site root (e.g. `default.aspx`),
+never an absolute URL.** An earlier edit here set it to `http://localhost:64080/`. Visual Studio combines
+`StartPageUrl` with the site's base URL when launching the browser, so an absolute value produced a doubled
+address bar URL: `http://localhost:64080/http://localhost:64080/`. A stale cached launch target in the binary
+`.suo` file kept using the bad value after the `.csproj.user` text was fixed; closing and reopening the
+solution cleared it. Current known-good value: `StartPageUrl=default.aspx`.
 
 `.vs/` is machine-local and not committed; if this recurs on another machine or after a `.vs`
 reset, re-apply the `applicationhost.config` module removal above.
+
+## 3. LocalDB not auto-starting under the Visual Studio debugger (outside-git change, logged per rule 12)
+While chasing a separate LocalDB auto-start failure (event log `WaitForMultipleObjects returned error code: 575`,
+browser error 50), set the registry value
+`HKCU\Software\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\Timeout` = `0` (DWORD) from chat,
+with no record in the repo at the time (a rule 12 gap; logged here now). It made no measurable difference to the
+failure and was removed. Undo, if ever set again:
+```powershell
+Remove-ItemProperty 'HKCU:\Software\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB' -Name Timeout
+```
+The site actually started launching again only after `<None Include="connectionStrings.config" />` was restored
+to `BlogEngine.NET.csproj` (correlation observed, not a proven cause) together with the `StartPageUrl` fix above.
+Local run in practice: start LocalDB first with `sqllocaldb start MSSQLLocalDB`, then launch under the debugger.
