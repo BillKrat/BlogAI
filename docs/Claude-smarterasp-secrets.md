@@ -42,3 +42,11 @@ A `machineKey` for this site was committed in May 2026 and sat in public history
 - `connectionStrings.config` and `appSettings.secrets.config` exist on the server next to `Web.Config`.
 - Server `Web.Config` has no inline connection string and no committed `machineKey`.
 - `git status` shows no real values staged; `deployment_get_status` shows no new errors.
+
+## Deployment record (2026-09-26)
+Executed by the runbook above against `site-749862`:
+1. `Adventures/connectionStrings.config` uploaded via `Claude-ftp.ps1` with the SQL password rendered in memory (304 bytes).
+2. Server `Web.Config` replaced by the `Web.Config.SQL` content (19,837 bytes) after an automatic backup to `M:\Dev\Websites\Adventures\_ftp-backup\20260926-102009\Web.Config`. **That backup holds the old inline credentials and the compromised `machineKey`: keep it only until you are satisfied, then delete it (it is outside every repo and git-ignored by location).**
+3. `website_restart` succeeded (operation `1f7cff5d-89c0-48fa-b3cb-f4fbb4b6dbaa`). Home page and login page return 200, the home page lists 27 posts from SQL Server. The `machineKey` is now auto-generated, so everyone was signed out once.
+Rollback if ever needed: `Claude-ftp.ps1 put <backup file> -Remote Adventures/Web.Config -AllowInlineSecrets -Apply`, then `website_restart`.
+`appSettings.secrets.config` was not created (reload endpoint stays disabled until a key is set).
