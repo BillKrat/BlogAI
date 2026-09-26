@@ -27,6 +27,9 @@ If you launch IIS Express by hand, give `/path:` as a native Windows path (`M:\.
 
 **Windows on ARM:** run the site under the 32-bit (x86) IIS Express. The csproj sets `Use64BitIISExpress` to `false`; keep it that way (the Visual Studio toggle Tools > Options > Projects and Solutions > Web Projects rewrites it). SQL Server LocalDB ships x86 and x64 client libraries but no ARM64 one, so an ARM64 IIS Express fails with `Unable to load the SQLUserInstance.dll` / `%1 is not a valid Win32 application`. SmarterASP also runs this site in a 32-bit pool.
 
+**LocalDB under the Visual Studio debugger:** when the debugger launches IIS Express and the LocalDB instance is stopped, the instance fails to auto-start (Windows event "WaitForMultipleObjects returned error code: 575", browser error 50 "LocalDB instance startup: SQL Server process failed to start"). The same request works when the instance is already running. Start it first (`sqllocaldb start MSSQLLocalDB`) and stop it idling out by setting the per-user registry value `HKCU\Software\Microsoft\Microsoft SQL Server Local DB\Instances\MSSQLLocalDB\Timeout` (DWORD) to `0`.
+
+
 ## Security notes
 
 - **Secrets stay out of git.** Only the `.example` templates are committed. Never commit real connection strings, keys, or publish profiles with passwords.
