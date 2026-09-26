@@ -803,8 +803,6 @@
     <Content Include="connectionStrings.config.example" />
     <Content Include="appSettings.secrets.config.example" />
     <None Include="connectionStrings.config" />
-    <None Include="Properties\PublishProfiles\billkrat-001-site1 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\billkrat-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -2463,6 +2461,7 @@
     <Folder Include="App_Data\packages\" />
     <Folder Include="App_Data\pages\" />
     <Folder Include="bin\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
