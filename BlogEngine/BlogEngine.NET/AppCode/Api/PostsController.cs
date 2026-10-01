@@ -88,7 +88,7 @@ public class PostsController : ApiController
     }
 
     [HttpPost]
-    public HttpResponseMessage Reload(string id = "")
+    public HttpResponseMessage Reload(string id)
     {
         if (!CanReloadPosts())
             throw new HttpResponseException(HttpStatusCode.Unauthorized);
