@@ -23,7 +23,7 @@ Start with the workspace `AGENTS.md` (`M:\Dev\repos\AGENTS.md`) if you have it. 
 
 ## Repo overview
 
-Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Framework 4.8), running **live** at https://AdventuresOnTheEdge.net on SQL Server. It stays on this stack while `ai-research-blog` (the planned replacement) matures. **Do not modify it as part of new-stack work;** anything touching this repo needs an explicit request from the human.
+Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Framework 4.8), running **live** at https://AdventuresOnTheEdge.net on SQL Server. It stays on this stack while `ai-research-blog` (the planned replacement) matures. **Do not modify it as part of new-stack work;** anything touching this repo needs an explicit request from the human. **CRITICAL:** The codebase builds successfully but crashes at runtime with the existing assemblies; do not upgrade NuGet packages or dependencies. Code changes are scoped to maintenance and functional fixes needed for live operation during migration to ASP.NET Core. This is one of the primary drivers for the rewrite.
 
 - **Build/run:** open `BlogEngine.sln` in Visual Studio 2026; the web host is `BlogEngine/BlogEngine.NET` (or MSBuild it and run x86 IIS Express with `/path:` given as a native Windows path; Git Bash mangles it into a 404).
 - **SQL schema = Setup.sql + `setup/BillKrat-Upgrade.2018.12.30.sql` (creates `Contact`) + `setup/BillKrat-Upgrade.2026.09.26.sql` (`be_Users.Comment`)**: the fork code needs both; stock Setup.sql has neither (found 2026-09-26 on a clean LocalDB build). Windows on ARM: IIS Express must be x86 (`Use64BitIISExpress` is `false` in the csproj; LocalDB has no ARM64 client).
