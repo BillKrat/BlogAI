@@ -78,15 +78,16 @@ namespace BlogEngine.Core.Packaging
         /// <returns>Object with extra package fields</returns>
         public static PackageExtra GetPackageExtra(string id)
         {
+            var url = BlogConfig.GalleryFeedUrl.Replace("/nuget", "/api/extras/" + id);
             try
             {
-                var url = BlogConfig.GalleryFeedUrl.Replace("/nuget", "/api/extras/" + id);
                 WebClient wc = new WebClient();
                 string json = wc.DownloadString(url);
                 return JsonConvert.DeserializeObject<PackageExtra>(json);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogGalleryFailure("GetPackageExtra", url, ex);
                 return null;
             }
         }
@@ -98,15 +99,16 @@ namespace BlogEngine.Core.Packaging
         /// <returns>List of extra fields if exist</returns>
         public static IEnumerable<PackageExtra> GetPackageExtras()
         {
+            var url = BlogConfig.GalleryFeedUrl.Replace("/nuget", "/api/extras");
             try
             {
-                var url = BlogConfig.GalleryFeedUrl.Replace("/nuget", "/api/extras");
                 WebClient wc = new WebClient();
                 string json = wc.DownloadString(url);
                 return JsonConvert.DeserializeObject<List<PackageExtra>>(json);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogGalleryFailure("GetPackageExtras", url, ex);
                 return null;
             }
         }
@@ -143,6 +145,31 @@ namespace BlogEngine.Core.Packaging
         }
 
         #region Private methods
+
+        /// <summary>
+        /// How often (per method) to allow the gallery-unreachable warning to be written to the log.
+        /// GetPackageExtra is called once per installed theme/widget/extension, so without this a single
+        /// page load with a dead gallery could write dozens of near-identical lines.
+        /// </summary>
+        static readonly TimeSpan GalleryFailureLogInterval = TimeSpan.FromMinutes(15);
+
+        static readonly System.Collections.Concurrent.ConcurrentDictionary<string, DateTime> lastGalleryFailureLogged =
+            new System.Collections.Concurrent.ConcurrentDictionary<string, DateTime>();
+
+        /// <summary>
+        /// Logs a remote-gallery failure so it is visible in the dashboard's log viewer, instead of being
+        /// silently swallowed. Rate-limited per method so a dead gallery doesn't flood the log.
+        /// </summary>
+        static void LogGalleryFailure(string methodName, string url, Exception ex)
+        {
+            var now = DateTime.UtcNow;
+            var last = lastGalleryFailureLogged.GetOrAdd(methodName, DateTime.MinValue);
+            if (now - last < GalleryFailureLogInterval)
+                return;
+
+            lastGalleryFailureLogged[methodName] = now;
+            Utils.Log($"BlogEngine.Core.Packaging.Gallery.{methodName}: gallery feed unreachable or returned unexpected content ({url}) - {ex.Message}");
+        }
 
         static IEnumerable<IPackage> GetNugetPackages()
         {

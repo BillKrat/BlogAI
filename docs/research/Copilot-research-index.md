@@ -13,3 +13,4 @@ here with a one-line summary the moment it's created (no orphans, per the repo's
 | File | Summary |
 |---|---|
 | [Copilot-2026-10-03-feed-settings-and-newsfeed.md](Copilot-2026-10-03-feed-settings-and-newsfeed.md) | How `Endorsement`/`AlternateFeedUrl` actually work (outbound-only, narrow legacy purposes); dashboard `/api/newsfeed` wiring and the disconnect between controller output and the (missing) view markup; an orphaned, non-compiled duplicate `NewsFeedLogic.cs` |
+| [Copilot-2026-10-03-gallery-feed-silent-failure.md](Copilot-2026-10-03-gallery-feed-silent-failure.md) | `Gallery.GetPackageExtra[s]` silently swallowed a dead `dnbe.net` gallery domain's JSON failure; how `logger.txt`/`DashboardVM.Logs` actually wire to the dashboard log modal (two separator-parsing methods are dead code); the rate-limited log-and-bypass fix applied |
