@@ -17,6 +17,10 @@ namespace BlogEngine.Wiki.Test
         private readonly MockBlogHelper _mockBlog = new MockBlogHelper();
 
         [TestMethod]
+        // Ignored: legacy 2012 integration test. It needs a hosted ASP.NET app path for
+        // Server.MapPath and a stale Blog context setup. Tabled while BlogEngine is on its
+        // way out; see docs/Claude-review-2026-10-copilot-handoff-followup.md.
+        [Ignore]
         public void CanLoadExtension()
         {
             var extension = new GwnWikiExtension();
