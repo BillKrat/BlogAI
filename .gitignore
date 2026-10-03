@@ -186,6 +186,8 @@ BlogEngine/.vs/
 
 # Default extensions data
 BlogEngine/BlogEngine.NET/App_Data/datastore/extensions/*.xml
+BlogEngine/BlogEngine.NET/App_Data/logger.txt
+BlogEngine/BlogEngine.NET/App_Data/blogs/bloghelp/
 /.vs/slnx.sqlite
 /.vs/BlogEngine.NET/config/applicationhost.config
 /BlogEngine/BlogEngine.NET/.vs
