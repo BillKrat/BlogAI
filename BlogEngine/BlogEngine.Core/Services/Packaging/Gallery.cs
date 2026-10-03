@@ -100,18 +100,6 @@ namespace BlogEngine.Core.Packaging
         public static IEnumerable<PackageExtra> GetPackageExtras()
         {
             return null; // no longer supported
-            var url = BlogConfig.GalleryFeedUrl.Replace("/nuget", "/api/extras");
-            try
-            {
-                WebClient wc = new WebClient();
-                string json = wc.DownloadString(url);
-                return JsonConvert.DeserializeObject<List<PackageExtra>>(json);
-            }
-            catch (Exception ex)
-            {
-                LogGalleryFailure("GetPackageExtras", url, ex);
-                return null;
-            }
         }
 
         /// <summary>
