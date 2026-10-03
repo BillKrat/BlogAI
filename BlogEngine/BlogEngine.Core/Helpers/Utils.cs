@@ -1,12 +1,16 @@
 ﻿namespace BlogEngine.Core
 {
+    using BlogEngine.Core.Web.Controls;
+    using BlogEngine.Core.Web.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.DirectoryServices;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
+    using System.Net.Sockets;
     using System.Reflection;
     using System.Security;
     using System.Security.Cryptography;
@@ -16,13 +20,9 @@
     using System.Web;
     using System.Web.Configuration;
     using System.Web.UI;
-    using System.Web.UI.WebControls;
     using System.Web.UI.HtmlControls;
+    using System.Web.UI.WebControls;
     using System.Xml;
-    using System.DirectoryServices;
-    using BlogEngine.Core.Web.Controls;
-    using BlogEngine.Core.Web.Extensions;
-    using System.Net.Sockets;
 
     /// <summary>
     /// Utilities for the entire solution to use.
@@ -456,19 +456,20 @@
                     // No read permissions on web.config due to the trust level (must be High or Full)
                 }
 
-                if (s != null && s.CodeSubDirectories != null && s.CodeSubDirectories.Count > 0)
-                {
-                    for (var i = 0; i < s.CodeSubDirectories.Count; i++)
-                    {
-                        assemblyName = $"App_SubCode_{s.CodeSubDirectories[i].DirectoryName}";
-                        codeAssemblies.Add(Assembly.Load(assemblyName));
-                    }
-                }
-                else
-                {
-                    assemblyName = "App_Code";
-                    codeAssemblies.Add(Assembly.Load(assemblyName));
-                }
+                // Obsolete code for loading assemblies from subdirectories in App_Code.  This is no longer supported in .NET 4.0 and later.
+                //if (s != null && s.CodeSubDirectories != null && s.CodeSubDirectories.Count > 0)
+                //{
+                //    for (var i = 0; i < s.CodeSubDirectories.Count; i++)
+                //    {
+                //        assemblyName = $"App_SubCode_{s.CodeSubDirectories[i].DirectoryName}";
+                //        codeAssemblies.Add(Assembly.Load(assemblyName));
+                //    }
+                //}
+                //else
+                //{
+                //    assemblyName = "App_Code";
+                //    codeAssemblies.Add(Assembly.Load(assemblyName));
+                //}
             }
             catch (FileNotFoundException)
             {
@@ -695,7 +696,7 @@
         /// </returns>
         public static string GetSubDomain(Uri url)
         {
-           
+
             if (url.HostNameType == UriHostNameType.Dns)
             {
                 var host = url.Host;
@@ -811,7 +812,7 @@
 
         private static readonly Regex validIpV4AddressRegex = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", RegexOptions.IgnoreCase);
         private static readonly Regex validHostnameRegex = new Regex(@"^(([a-z]|[a-z][a-z0-9\-]*[a-z0-9])\.)*([a-z]|[a-z][a-z0-9\-]*[a-z0-9])$", RegexOptions.IgnoreCase);
-        
+
 
         /// <summary>
         /// Email address by user name
@@ -825,7 +826,7 @@
             var users = userCollection.Cast<System.Web.Security.MembershipUser>().ToList();
             var user = users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
 
-            if(user != null)
+            if (user != null)
             {
                 return user.Email;
             }
@@ -908,7 +909,7 @@
             foreach (Assembly a in codeAssemblies)
             {
                 var types = a.GetTypes();
-                
+
                 Type extensionsAttribute = typeof(ExtensionAttribute);
 
                 sortedExtensions.AddRange(
@@ -955,12 +956,12 @@
         /// <param name="format">A format string</param>
         /// <param name="args">Arguments to replace in the format string</param>
 		public static void Log(string format, params object[] args)
-		{
-			if (OnLog != null)
-			{
-				OnLog(string.Format(format, args), EventArgs.Empty);
-			}
-		}
+        {
+            if (OnLog != null)
+            {
+                OnLog(string.Format(format, args), EventArgs.Empty);
+            }
+        }
 
         /// <summary>
         /// Sends a message to any subscribed log listeners.
@@ -1319,7 +1320,7 @@
 
             if (dir != null && Directory.Exists(dir))
             {
-                if (string.IsNullOrEmpty(file)) 
+                if (string.IsNullOrEmpty(file))
                     file = $"test{DateTime.Now.ToString("ddmmhhssss")}.txt";
 
                 try
@@ -1546,9 +1547,10 @@
             }
 
             var readerSettings = new XmlReaderSettings
-                {
-                    MaxCharactersFromEntities = 1024, XmlResolver = new XmlSafeResolver() 
-                };
+            {
+                MaxCharactersFromEntities = 1024,
+                XmlResolver = new XmlSafeResolver()
+            };
 
             XmlDocument doc;
             try
@@ -1563,7 +1565,7 @@
             {
                 return null;
             }
-            
+
             return doc;
         }
 

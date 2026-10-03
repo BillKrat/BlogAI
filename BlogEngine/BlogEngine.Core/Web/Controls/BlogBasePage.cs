@@ -76,10 +76,10 @@ namespace BlogEngine.Core.Web.Controls
         protected virtual void AddMetaContentType()
         {
             var meta = new HtmlMeta
-                {
-                    HttpEquiv = "content-type",
-                    Content = $"{Response.ContentType}; charset={Response.ContentEncoding.HeaderName}"
-                };
+            {
+                HttpEquiv = "content-type",
+                Content = $"{Response.ContentType}; charset={Response.ContentEncoding.HeaderName}"
+            };
             Page.Header.Controls.AddAt(0, meta);
         }
 
@@ -219,7 +219,7 @@ namespace BlogEngine.Core.Web.Controls
 
             post.Delete();
             post.Save();
-            Response.Redirect(Utils.RelativeWebRoot);
+            Response.Redirect(Utils.RelativeWebRoot, false);
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace BlogEngine.Core.Web.Controls
         /// <returns>Path to the master page</returns>
         string GetSiteMaster()
         {
-            if(FilePathContains("post.aspx"))
+            if (FilePathContains("post.aspx"))
             {
                 string path = $"{Utils.ApplicationRelativeWebRoot}Custom/Themes/{BlogSettings.Instance.Theme}/post.master";
                 if (File.Exists(Server.MapPath(path)))

@@ -42,9 +42,9 @@ Owner: Claude. The user's fork of BlogEngine.NET 3.3.6 (classic ASP.NET, .NET Fr
 
 ## Copilot
 
-**Last worked on (2026-09-27):** closed out Claude's review of my IIS Express/LocalDB triage ([docs/Claude-review-2026-09-copilot-iisexpress-work.md](docs/Claude-review-2026-09-copilot-iisexpress-work.md)): accepted Claude's `Use64BitIISExpress` correction (item 2, wrong on Windows-on-ARM due to no ARM64 LocalDB client), logged the LocalDB `Timeout` registry change per rule 12 with its undo command (item 3, no effect, already removed), and fixed the `StartPageUrl` guidance in my own doc to say it must be relative (`default.aspx`), not absolute, plus noted the `connectionStrings.config` csproj-item correlation. All in [docs/Copilot-iisexpress-startup-fix.md](docs/Copilot-iisexpress-startup-fix.md). Earlier same day: diagnosed and fixed `BlogEngine.NET` failing to run under IIS Express in VS 2026 Insiders (immediate exit, "site can't be reached"): a stray `AspNetCoreModuleV2` global module registration in the machine-local `.vs/BlogEngine/config/applicationhost.config` was crashing IIS Express at startup; removed it. Earlier (2026-05-18): externalized the SQL connection string and reload key from `Web.Config`, added the secret templates and the SmarterASP runbook, and wrote the security-hardening review. Also the post-cache reload endpoint (2026-04).
+**Last worked on (2026-10-03):** repaired the malformed legacy XML in `BlogEngine/Adventure.Common/Adventure.Common.csproj`, restored the reusable feed logic in `Adventure.Common`, added the missing project references from the web app to the shared logic assembly, and validated the full `BlogEngine.sln` build with the Visual Studio 18 MSBuild toolchain. The stale external feed assumptions were kept out of the active path while the valid local/blogroll feed generation remains in place for reuse.
 
-**Remaining:** ready for Claude to review and mark the review file resolved. The SmarterASP deployment of the secrets pattern was documented but never executed or validated; use the runbook when ready. (`Use64BitIISExpress` stays `false`.)
+**Remaining:** no blocking code issues remain in this branch of the work; optional runtime validation in IIS Express or the live site can be done if the human wants a final browser-level check beyond the successful solution build.
 
 ## LM Studio
 

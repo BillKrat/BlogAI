@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Web;
 using System.Web.Security;
-using System.Security;
 
 namespace BlogEngine.Core
 {
@@ -47,8 +47,8 @@ namespace BlogEngine.Core
         {
             // default to an empty/unauthenticated user to assign to context.User.
             CustomIdentity identity = new CustomIdentity(string.Empty, false);
-            CustomPrincipal principal = new CustomPrincipal(identity); 
-            
+            CustomPrincipal principal = new CustomPrincipal(identity);
+
             var context = ((HttpApplication)sender).Context;
 
             // FormsAuthCookieName is a custom cookie name based on the current instance.
@@ -72,8 +72,8 @@ namespace BlogEngine.Core
 
                 if (authTicket != null)
                 {
-                    identity = new CustomIdentity(authTicket.Name, true); 
-                    
+                    identity = new CustomIdentity(authTicket.Name, true);
+
                     if (!string.IsNullOrWhiteSpace(authTicket.UserData))
                     {
                         int delimiter = authTicket.UserData.IndexOf(AUTH_TKT_USERDATA_DELIMITER);
@@ -194,7 +194,7 @@ namespace BlogEngine.Core
                     }
                     else
                     {
-                        context.Response.Redirect(Utils.RelativeWebRoot);
+                        context.Response.Redirect(Utils.RelativeWebRoot, false);
                     }
 
                     return true;
@@ -403,7 +403,7 @@ namespace BlogEngine.Core
             // If their is a CustomField then we'll need to see if it is our
             // Role field - if there are no custom fields then there is nothing to do
             // so we'll exit.
-            if (page.CustomFields==null || page.CustomFields.Count == 0)
+            if (page.CustomFields == null || page.CustomFields.Count == 0)
                 return true;
 
             var roleConstraint = page.CustomFields.FirstOrDefault(r => r.Key.ToLower() == "role");
@@ -419,7 +419,7 @@ namespace BlogEngine.Core
             var pageRoles = roleConstraint.Value.Value.Split(',').Select(r => r.Trim());
 
             var isAuthorized = false;
-            foreach(var pageRole in pageRoles)
+            foreach (var pageRole in pageRoles)
             {
                 // If user is authorized via the role then we'll return true
                 if (userRoles.Contains(pageRole))
