@@ -68,7 +68,7 @@ namespace BlogEngine.Core.Packaging
             catch (Exception ex)
             {
                 Utils.Log("BlogEngine.Core.Packaging.Load", ex);
-            }   
+            }
         }
 
         /// <summary>
@@ -99,6 +99,7 @@ namespace BlogEngine.Core.Packaging
         /// <returns>List of extra fields if exist</returns>
         public static IEnumerable<PackageExtra> GetPackageExtras()
         {
+            return null; // no longer supported
             var url = BlogConfig.GalleryFeedUrl.Replace("/nuget", "/api/extras");
             try
             {
