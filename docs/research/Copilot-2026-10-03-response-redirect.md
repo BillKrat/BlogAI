@@ -15,7 +15,7 @@ The result is a cleaner response without the debugger-only abort exception, whil
 
 ## `Utils.cs` change tracking note
 
-The only functional change in `BlogEngine.Core/Helpers/Utils.cs` is the commented-out `App_Code` / `App_SubCode` assembly-loading block around lines 459-472. It is safe to keep the code commented out because the runtime still loads the compiled extension assemblies through `GetCompiledExtensions()`, and the wiki extension continues to load and work as expected. This code path is obsolete in .NET 4.0+, so leaving it disabled removes dead/unsupported behavior without harming the current extension model.
+This is the exact review note for item 4: the only functional change in `BlogEngine.Core/Helpers/Utils.cs` is the commented-out `App_Code` / `App_SubCode` assembly-loading block around lines 459-472. It is safe to keep the code commented out because the runtime still loads the compiled extension assemblies through `GetCompiledExtensions()`, and the wiki extension continues to load and work as expected. This code path is obsolete in .NET 4.0+, so leaving it disabled removes dead/unsupported behavior without harming the current extension model.
 
 ## Blog registry note for the `bloghelp` dev blog
 
