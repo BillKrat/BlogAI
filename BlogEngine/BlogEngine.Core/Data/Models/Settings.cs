@@ -118,6 +118,7 @@
         public string FeedAuthor { get; set; }
         public string Endorsement { get; set; }
         public string AlternateFeedUrl { get; set; }
+        public string HelpFeedBlogId { get; set; }
         public string Language { get; set; }
         public int PostsPerFeed { get; set; }
         public bool EnableEnclosures { get; set; }

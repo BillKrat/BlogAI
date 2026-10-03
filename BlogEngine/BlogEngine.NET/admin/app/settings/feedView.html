@@ -23,6 +23,10 @@
                     <input type="text" class="form-control ltr-dir" id="txtAlternateFeedUrl" name="txtAlternateFeedUrl" data-ng-model="settings.AlternateFeedUrl" />
                 </div>
                 <div class="form-group">
+                    <label for="selHelpFeedBlog">{{lbl.helpFeedUrl}}</label>
+                    <select id="selHelpFeedBlog" class="form-control" data-ng-options="o.OptionName for o in vm.BlogList" data-ng-model="selHelpFeedBlog"></select>
+                </div>
+                <div class="form-group">
                     <label for="txtlanguageCode">{{lbl.languageCode}}</label>
                     <input type="text" class="form-control ltr-dir" id="txtlanguageCode" data-ng-model="settings.Language" />
                 </div>

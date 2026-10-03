@@ -118,18 +118,17 @@
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-4">
-                <a href="http://www.adventuresontheedge.net/bloghelp" target="_blank">
-                    <table>
-                        <tr>
-                            <td>
-                                <img class="img-rounded" ng-src="http://adventuresOnTheEdge.net/pics/headbang.gif" style="max-width:100%;" />
-                            </td>
-                            <td>
-                                &nbsp;<span style="font-size:xx-large">Need help?</span><br />Click here to view tutorials
-                            </td>
-                        </tr>
-                    </table>
-                </a>
+                <div class="panel panel-default dashboard-list">
+                    <div class="panel-heading">
+                        <div class="panel-title">{{lbl.needHelp}}</div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item clearfix" data-ng-repeat="item in news">
+                            <a title="{{item.Title}}" target="_blank" href="{{item.Link}}" class="text-ellipsis">{{item.Title}}</a>
+                        </li>
+                        <li ng-if="news.length == 0" class="list-group-item item-empty">{{lbl.empty}}</li>
+                    </ul>
+                </div>
                 <div id="news-spinner" class="list-group-item item-spinner">
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>

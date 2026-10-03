@@ -32,6 +32,12 @@ namespace BlogEngine.Core.Data.Models
         /// </summary>
         public IEnumerable<SelectOption> InstalledThemes { get; set; }
 
+        /// <summary>
+        /// Active blog instances in this multi-tenant install, for use as the
+        /// source blog in Settings &gt; Feed's "Help feed" picker.
+        /// </summary>
+        public IEnumerable<SelectOption> BlogList { get; set; }
+
         public EditorOptions PostOptions { get; set; }
         public EditorOptions PageOptions { get; set; }
     }

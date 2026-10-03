@@ -39,6 +39,8 @@ namespace BlogEngine.Core.Data
 
             LoadThemes();
 
+            LoadBlogList();
+
             LoadEditorOptions();
 
             return lookups;
@@ -151,6 +153,16 @@ namespace BlogEngine.Core.Data
                 items.Add(new SelectOption { OptionName = pkg.Title, OptionValue = pkg.Id.ToString() });
             }
             lookups.InstalledThemes = items;
+        }
+
+        void LoadBlogList()
+        {
+            var items = new List<SelectOption>();
+            foreach (var blog in Blog.Blogs.Where(b => b.IsActive))
+            {
+                items.Add(new SelectOption { OptionName = blog.Name, OptionValue = blog.Id.ToString() });
+            }
+            lookups.BlogList = items;
         }
 
         void LoadEditorOptions()

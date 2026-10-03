@@ -1,48 +1,35 @@
 ﻿using Adventure.Common;
 using System;
-using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.ServiceModel.Syndication;
-using System.Text;
 using System.Web.Http;
-using System.Xml;
 
 public class NewsFeedController : ApiController
 {
     private readonly NewsFeedLogic _logic = new NewsFeedLogic();
 
+    /// <summary>
+    /// Returns the dashboard news/help feed items as JSON (title, link, description,
+    /// publish date), matching the shape every other admin API endpoint returns so
+    /// Angular's dataService.getItems can bind directly to it without XML parsing.
+    /// </summary>
     public HttpResponseMessage Get()
     {
         try
         {
-            // Legacy external feed behavior retained only for reference.
-            // var items = new List<SelectOption>();
-            // string url = "https://blogengine.io/news.xml";
-
             var feed = _logic.ToSyndicationFeed(_logic.ReadCurrentBlogList());
-            var output = new MemoryStream();
 
-            using (var writer = XmlWriter.Create(output, new XmlWriterSettings
+            var items = feed.Items.Select(item => new
             {
-                Encoding = Encoding.UTF8,
-                OmitXmlDeclaration = false,
-                Indent = false,
-                NewLineHandling = NewLineHandling.None
-            }))
-            {
-                var formatter = new Rss20FeedFormatter(feed);
-                formatter.WriteTo(writer);
-            }
+                Title = item.Title != null ? item.Title.Text : string.Empty,
+                Link = item.Links.Count > 0 ? item.Links[0].Uri.ToString() : string.Empty,
+                Description = item.Content is TextSyndicationContent ? ((TextSyndicationContent)item.Content).Text : string.Empty,
+                PublishDate = item.PublishDate.UtcDateTime
+            }).ToList();
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(output.ToArray())
-            };
-
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/rss+xml");
-            return response;
+            return Request.CreateResponse(HttpStatusCode.OK, items);
         }
         catch (Exception ex)
         {
@@ -51,3 +38,4 @@ public class NewsFeedController : ApiController
         }
     }
 }
+

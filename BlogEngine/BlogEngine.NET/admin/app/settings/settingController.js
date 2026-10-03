@@ -46,6 +46,12 @@
                     $scope.selTimeZone = selectedOption($scope.timeZoneOptions, $scope.settings.TimeZoneId);
                     $scope.selFacebookLanguage = selectedOption($scope.vm.FacebookLanguages, $scope.settings.FacebookLanguage);
                     $scope.setCommentProviders($scope.settings.CommentProvider);
+
+                    // "None" placeholder lets the tenant admin clear the help feed back to
+                    // the current blog's own posts (NewsFeedController's fallback behavior).
+                    $scope.vm.BlogList = [{ OptionName: $rootScope.lbl.none, OptionValue: "" }].concat($scope.vm.BlogList || []);
+                    $scope.selHelpFeedBlog = selectedOption($scope.vm.BlogList, $scope.settings.HelpFeedBlogId || "");
+
                     spinOff();
                 })
                 .error(function () {
@@ -70,6 +76,7 @@
             $scope.settings.CommentsPerPage = $scope.selCommentsPerPage.OptionValue;
             $scope.settings.TimeZoneId = $scope.selTimeZone.OptionValue;
             $scope.settings.FacebookLanguage = $scope.selFacebookLanguage.OptionValue;
+            $scope.settings.HelpFeedBlogId = $scope.selHelpFeedBlog ? $scope.selHelpFeedBlog.OptionValue : "";
             $scope.settings.txtErrorTitle = $scope.txtErrorTitle;
 
             dataService.updateItem("/api/settings", $scope.settings)

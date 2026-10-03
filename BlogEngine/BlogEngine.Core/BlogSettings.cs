@@ -265,6 +265,17 @@
 
         #endregion
 
+        #region HelpFeedBlogId
+
+        /// <summary>
+        ///     Gets or sets the Id (as a string) of the tenant-designated help/tutorials blog instance.
+        ///     When set, the dashboard news feed (<c>NewsFeedController</c>) reads posts from that
+        ///     blog instance instead of falling back to the current blog's own posts.
+        /// </summary>
+        public string HelpFeedBlogId { get; set; }
+
+        #endregion
+
         #region FeedAuthor
 
         /// <summary>

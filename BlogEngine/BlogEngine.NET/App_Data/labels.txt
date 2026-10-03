@@ -355,6 +355,7 @@ handleWwwSubdomain
 hasRated
 heading
 headings
+helpFeedUrl
 highestRated
 home
 hostName
@@ -435,6 +436,7 @@ move
 moveWidgetTo
 myProfile
 name
+needHelp
 never
 newAndConfirmPasswordMismatch
 newCategory

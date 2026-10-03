@@ -76,6 +76,7 @@ namespace BlogEngine.Core.Data
             bs.FeedAuthor = ns.FeedAuthor;
             bs.Endorsement = ns.Endorsement;
             bs.AlternateFeedUrl = ns.AlternateFeedUrl;
+            bs.HelpFeedBlogId = ns.HelpFeedBlogId;
             bs.Language = ns.Language;
             bs.PostsPerFeed = ns.PostsPerFeed;
             bs.EnableEnclosures = ns.EnableEnclosures;
@@ -192,6 +193,7 @@ namespace BlogEngine.Core.Data
             ns.FeedAuthor = bs.FeedAuthor;
             ns.Endorsement = bs.Endorsement;
             ns.AlternateFeedUrl = bs.AlternateFeedUrl;
+            ns.HelpFeedBlogId = bs.HelpFeedBlogId;
             ns.Language = bs.Language;
             ns.PostsPerFeed = bs.PostsPerFeed;
             ns.EnableEnclosures = bs.EnableEnclosures;

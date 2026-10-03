@@ -339,6 +339,14 @@
   <data name="handleWwwSubdomain" xml:space="preserve">
     <value>www subdomain policy</value>
   </data>
+  <data name="helpFeedUrl" xml:space="preserve">
+    <value>Help feed URL</value>
+    <comment>Syndication feed URL of the tenant-designated help/tutorials blog, used to populate the dashboard news panel</comment>
+  </data>
+  <data name="needHelp" xml:space="preserve">
+    <value>Need help?</value>
+    <comment>Dashboard panel title for the tenant-designated help/tutorials feed</comment>
+  </data>
   <data name="home" xml:space="preserve">
     <value>Home</value>
     <comment>As used for linking to the front-page</comment>

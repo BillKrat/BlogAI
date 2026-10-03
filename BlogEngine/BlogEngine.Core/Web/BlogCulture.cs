@@ -480,6 +480,7 @@ namespace BlogEngine.Core.Web
             AddResource("handleWwwSubdomain");
             AddResource("hasRated");
             AddResource("heading");
+            AddResource("helpFeedUrl");
             AddResource("home");
             AddResource("hostName");
             AddResource("htmlHeadSection");
@@ -557,6 +558,7 @@ namespace BlogEngine.Core.Web
             AddResource("moveWidgetTo");
             AddResource("myProfile");
             AddResource("name");
+            AddResource("needHelp");
             AddResource("theNew");
             AddResource("never");
             AddResource("newAndConfirmPasswordMismatch");
