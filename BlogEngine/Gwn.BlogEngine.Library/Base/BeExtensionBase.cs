@@ -60,6 +60,10 @@ namespace Gwn.BlogEngine.Library.Base
             Post.Saving += Post_Saving;
             Post.Serving += Post_Serving;
             Post.Saved += Post_Saved;
+
+            Page.Saving += Page_Saving;
+            Page.Serving += Page_Serving;
+            Page.Saved += Page_Saved;
         }
         #endregion 
 
@@ -86,7 +90,7 @@ namespace Gwn.BlogEngine.Library.Base
                            };
 
             _beEngine.ProcessContent(sender, args);
-            
+
             // Update e.Body so any updates will be transferred
             e.Body = args.Body;
 
@@ -128,6 +132,82 @@ namespace Gwn.BlogEngine.Library.Base
             var idLink = sender.Cast<Post>().GetIdLink();
             var args = new BeEventArgs {
                     Content = sender.Cast<Post>().Content,
+                    Id = idLink.Item1,
+                    PermaLink = idLink.Item2,
+                    SaveAction = e.Action,
+                    ProcessType = BeProcessType.Saved
+                };
+
+            _beEngine.ProcessContent(sender, args);
+
+            OnExtensionEvent(args);
+        }
+
+        /// <summary>
+        /// Handles the Serving event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
+        public void Page_Serving(object sender, ServingEventArgs e)
+        {
+            Logger.Log("{0}: Handling Page_Serving()", GetType().Name);
+
+            var idLink = sender.Cast<Page>().GetIdLink();
+            var args = new BeEventArgs
+                           {
+                               Body = e.Body,
+                               Content = e.Body,
+                               Id = idLink.Item1,
+                               PermaLink = idLink.Item2,
+                               Cancel = e.Cancel,
+                               ContentBy = e.ContentBy,
+                               Location = e.Location,
+                               ProcessType = BeProcessType.Serving
+                           };
+
+            _beEngine.ProcessContent(sender, args);
+
+            // Update e.Body so any updates will be transferred
+            e.Body = args.Body;
+
+            // Raise event (for unit test)
+            OnExtensionEvent(args);
+        }
+
+        /// <summary>
+        /// Handles the Saving event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.</param>
+        public void Page_Saving(object sender, SavedEventArgs e)
+        {
+            Logger.Log("{0}: Handling Page_Saving()", GetType().Name);
+
+            var idLink = sender.Cast<Page>().GetIdLink();
+            var args = new BeEventArgs {
+                        Content = sender.Cast<Page>().Content,
+                        Id = idLink.Item1,
+                        PermaLink = idLink.Item2,
+                        SaveAction = e.Action,
+                        ProcessType = BeProcessType.Saving
+                    };
+            _beEngine.ProcessContent(sender, args);
+
+            OnExtensionEvent(args);
+        }
+
+        /// <summary>
+        /// Handles the Saved event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.</param>
+        void Page_Saved(object sender, SavedEventArgs e)
+        {
+            Logger.Log("{0}: Handling Page_Saved()", GetType().Name);
+
+            var idLink = sender.Cast<Page>().GetIdLink();
+            var args = new BeEventArgs {
+                    Content = sender.Cast<Page>().Content,
                     Id = idLink.Item1,
                     PermaLink = idLink.Item2,
                     SaveAction = e.Action,

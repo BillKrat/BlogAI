@@ -1,5 +1,4 @@
 ﻿using System;
-using BlogEngine.Core;
 using BlogEngine.Wiki.Interfaces;
 using Gwn.BlogEngine.Library.Base;
 using Gwn.BlogEngine.Library.Entities;
@@ -42,11 +41,13 @@ namespace BlogEngine.Wiki
         {
             Logger.Log("{0}: Handling BlogEngineServing()", GetType().Name);
 
-            var post = sender.Cast<Post>();
+            // sender may be a Post or a Page - everything needed is already
+            // available generically on BeEventArgs (Content, Id, PermaLink),
+            // which were populated by the caller's GetIdLink() extension method.
 
             // Uses an extension method to retrieve the Wiki Commands from 
             // the Content (current page)
-            var wikiCommandsToProcess = post.Content.GetWikiCommands();
+            var wikiCommandsToProcess = e.Content.GetWikiCommands();
 
             // Process each Wiki command found in the e.Body
             foreach (var wikiCommand in wikiCommandsToProcess)
@@ -79,8 +80,8 @@ namespace BlogEngine.Wiki
                             displayValue = string.Format(displayTemplate, wikiCommand.CommandParameter);
 
                         // Supported Template Tags follow:
-                        displayValue = displayValue.Replace("[host]", post.PermaLink.Host);
-                        displayValue = displayValue.Replace("[id]", post.Id.ToString());
+                        displayValue = displayValue.Replace("[host]", new Uri(e.PermaLink).Host);
+                        displayValue = displayValue.Replace("[id]", e.Id);
 
                         // If PermaLink then use the perma link for the current CommandParameter
                         if (displayValue.Contains("PermaLink"))

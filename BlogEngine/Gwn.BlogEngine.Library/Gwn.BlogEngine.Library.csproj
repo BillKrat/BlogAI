@@ -58,6 +58,7 @@
     <Compile Include="Entities\BeSettingRecord.cs" />
     <Compile Include="Events\BeEventArgs.cs" />
     <Compile Include="Extensions\BeDataTableExtension.cs" />
+    <Compile Include="Extensions\BePageExtension.cs" />
     <Compile Include="Extensions\BePostExtension.cs" />
     <Compile Include="Extensions\BeRecordExtension.cs" />
     <Compile Include="Extensions\BeSettingExtension.cs" />
