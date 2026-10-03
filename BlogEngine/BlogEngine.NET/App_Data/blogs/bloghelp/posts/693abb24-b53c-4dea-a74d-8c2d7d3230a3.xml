@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<post>
+  <author>local-admin</author>
+  <title>Welcome to bloghelp's blog</title>
+  <description>The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory</description>
+  <content>Dear local-admin, welcome to you new blog! &lt;br/&gt;&lt;br/&gt;Log in &lt;a href="/bloghelp/Account/login.aspx"&gt;here&lt;/a&gt; to start using it. &lt;br/&gt;&lt;br/&gt;Happy blogging!</content>
+  <ispublished>True</ispublished>
+  <isdeleted>False</isdeleted>
+  <iscommentsenabled>True</iscommentsenabled>
+  <pubDate>2026-10-03 09:59:46</pubDate>
+  <lastModified>2026-10-03 09:59:46</lastModified>
+  <raters>5</raters>
+  <rating>4.24</rating>
+  <slug>Welcome-to-bloghelps-blog</slug>
+  <tags>
+    <tag>blog</tag>
+    <tag>welcome</tag>
+  </tags>
+  <comments />
+  <categories>
+    <category>62661510-361d-413b-afb5-ccbb1d636ca1</category>
+  </categories>
+  <notifications />
+</post>

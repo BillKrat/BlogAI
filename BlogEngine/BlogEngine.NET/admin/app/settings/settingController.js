@@ -49,8 +49,9 @@
 
                     // "None" placeholder lets the tenant admin clear the help feed back to
                     // the current blog's own posts (NewsFeedController's fallback behavior).
-                    $scope.vm.BlogList = [{ OptionName: $rootScope.lbl.none, OptionValue: "" }].concat($scope.vm.BlogList || []);
-                    $scope.selHelpFeedBlog = selectedOption($scope.vm.BlogList, $scope.settings.HelpFeedBlogId || "");
+                    // BlogList comes from the Lookups model (/api/lookups), not SettingsVM (/api/settings).
+                    $scope.lookups.BlogList = [{ OptionName: $rootScope.lbl.none, OptionValue: "" }].concat($scope.lookups.BlogList || []);
+                    $scope.selHelpFeedBlog = selectedOption($scope.lookups.BlogList, $scope.settings.HelpFeedBlogId || "");
 
                     spinOff();
                 })

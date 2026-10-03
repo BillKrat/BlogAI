@@ -8,6 +8,7 @@
     }
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
     var userRights = string.Join("','", Security.CurrentUserRights().Select(r => r.Flag).ToArray());
+    var adminCacheVersion = DateTime.UtcNow.Ticks;
 
     var name = Security.CurrentUser.Identity.Name;
     var email = Membership.Provider.GetUser(name, true).Email;
@@ -32,6 +33,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=no" />
     <script type="text/javascript">
+        window.BlogAdminCacheVersion = '@adminCacheVersion';
         var UserVars = { Name: '@Html.Raw(Security.CurrentUser.Identity.Name)', IsAdmin: '@Security.IsAdministrator', Rights: ['@Html.Raw(userRights)']  };
         var ActiveTheme = '@BlogSettings.Instance.Theme'
         var UsageScenario = '@BlogConfig.UsageScenario'
@@ -46,7 +48,7 @@
     </script>
 </head>
 <body class="@Resources.labels.LangDirection-dir">
-    <script type="text/javascript" src="admin.res.axd"></script>
+    <script type="text/javascript" src="admin.res.axd?v=@adminCacheVersion"></script>
     <div class="main-wrapper">
         <div class="main-sidebar">
             @RenderPage("sidebar.cshtml")

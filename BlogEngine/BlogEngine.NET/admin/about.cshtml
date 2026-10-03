@@ -4,6 +4,7 @@
 @using System.Web.Configuration
 @{
     Layout = "~/admin/themes/standard/layout.cshtml";
+    var adminCacheVersion = DateTime.UtcNow.Ticks;
     if (!Security.IsAuthorizedTo(Rights.AccessAdminPages))
     {
         Security.RedirectForUnauthorizedRequest();
@@ -95,4 +96,4 @@
         </div>
     </div>
 </div>
-@Scripts.Render("~/scripts/blogadmin")
+@Scripts.RenderFormat("<script src=\"{0}?v=" + adminCacheVersion + "\" type=\"text/javascript\"></script>", "~/scripts/blogadmin")

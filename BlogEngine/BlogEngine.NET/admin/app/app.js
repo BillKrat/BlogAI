@@ -1,40 +1,48 @@
 ﻿(function () {
     var app = angular.module("blogAdmin", ['ngRoute', 'ngSanitize']);
+    var cacheVersion = window.BlogAdminCacheVersion || new Date().getTime();
+
+    function cacheBust(url) {
+        if (!url) {
+            return url;
+        }
+
+        return url + (url.indexOf('?') > -1 ? '&' : '?') + 'v=' + cacheVersion;
+    }
 
     var config = ["$routeProvider", function ($routeProvider) {
         $routeProvider
-        .when("/", { templateUrl: "app/dashboard/dashboardView.html" })
+        .when("/", { templateUrl: cacheBust("app/dashboard/dashboardView.html") })
 
-        .when("/content/posts", { templateUrl: "app/content/posts/postView.html" })
-        .when("/content/blogs", { templateUrl: "app/content/blogs/blogView.html" })
-        .when("/content/comments", { templateUrl: "app/content/comments/commentView.html" })
-        .when("/content/comments/filters", { templateUrl: "app/content/comments/commentFilters.html" })
-        .when("/content/pages", { templateUrl: "app/content/pages/pageView.html" })
-        .when("/content/categories", { templateUrl: "app/content/categories/categoryView.html" })
-        .when("/content/tags", { templateUrl: "app/content/tags/tagView.html" })
+        .when("/content/posts", { templateUrl: cacheBust("app/content/posts/postView.html") })
+        .when("/content/blogs", { templateUrl: cacheBust("app/content/blogs/blogView.html") })
+        .when("/content/comments", { templateUrl: cacheBust("app/content/comments/commentView.html") })
+        .when("/content/comments/filters", { templateUrl: cacheBust("app/content/comments/commentFilters.html") })
+        .when("/content/pages", { templateUrl: cacheBust("app/content/pages/pageView.html") })
+        .when("/content/categories", { templateUrl: cacheBust("app/content/categories/categoryView.html") })
+        .when("/content/tags", { templateUrl: cacheBust("app/content/tags/tagView.html") })
 
-        .when("/custom/plugins", { templateUrl: "app/custom/plugins/pluginView.html" })
-        .when("/custom/plugins/gallery", { templateUrl: "app/custom/plugins/pluginGallery.html" })
-        .when("/custom/themes", { templateUrl: "app/custom/themes/themeView.html" })
-        .when("/custom/themes/gallery", { templateUrl: "app/custom/themes/themeGallery.html" })
-        .when("/custom/widgets", { templateUrl: "app/custom/widgets/widgetView.html" })
-        .when("/custom/widgets/gallery", { templateUrl: "app/custom/widgets/widgetGallery.html" })
+        .when("/custom/plugins", { templateUrl: cacheBust("app/custom/plugins/pluginView.html") })
+        .when("/custom/plugins/gallery", { templateUrl: cacheBust("app/custom/plugins/pluginGallery.html") })
+        .when("/custom/themes", { templateUrl: cacheBust("app/custom/themes/themeView.html") })
+        .when("/custom/themes/gallery", { templateUrl: cacheBust("app/custom/themes/themeGallery.html") })
+        .when("/custom/widgets", { templateUrl: cacheBust("app/custom/widgets/widgetView.html") })
+        .when("/custom/widgets/gallery", { templateUrl: cacheBust("app/custom/widgets/widgetGallery.html") })
 
-        .when("/security/profile", { templateUrl: "app/security/profile/profileView.html" })
-        .when("/security/roles", { templateUrl: "app/security/roles/roleView.html" })
-        .when("/security/users", { templateUrl: "app/security/users/userView.html" })
-        .when("/security/contacts", { templateUrl: "app/security/contacts/contactView.html" })
-        
+        .when("/security/profile", { templateUrl: cacheBust("app/security/profile/profileView.html") })
+        .when("/security/roles", { templateUrl: cacheBust("app/security/roles/roleView.html") })
+        .when("/security/users", { templateUrl: cacheBust("app/security/users/userView.html") })
+        .when("/security/contacts", { templateUrl: cacheBust("app/security/contacts/contactView.html") })
 
-        .when("/settings/basic", { templateUrl: "app/settings/basicView.html" })
-        .when("/settings/feed", { templateUrl: "app/settings/feedView.html" })
-        .when("/settings/email", { templateUrl: "app/settings/emailView.html" })
-        .when("/settings/comments", { templateUrl: "app/settings/commentView.html" })
-        .when("/settings/controls", { templateUrl: "app/settings/controlView.html" })
-        .when("/settings/advanced", { templateUrl: "app/settings/advancedView.html" })
-        .when("/settings/controls/blogroll", { templateUrl: "app/settings/controls/blogrollView.html" })
-        .when("/settings/controls/pings", { templateUrl: "app/settings/controls/pingView.html" })
-        .when("/settings/tools", { templateUrl: "app/settings/tools/checkView.html" })
+        .when("/settings/basic", { templateUrl: cacheBust("app/settings/basicView.html") })
+        .when("/settings/feed", { templateUrl: cacheBust("app/settings/feedView.html") })
+        .when("/settings/email", { templateUrl: cacheBust("app/settings/emailView.html") })
+        .when("/settings/comments", { templateUrl: cacheBust("app/settings/commentView.html") })
+        .when("/settings/controls", { templateUrl: cacheBust("app/settings/controlView.html") })
+        .when("/settings/advanced", { templateUrl: cacheBust("app/settings/advancedView.html") })
+        .when("/settings/controls/blogroll", { templateUrl: cacheBust("app/settings/controls/blogrollView.html") })
+        .when("/settings/controls/pings", { templateUrl: cacheBust("app/settings/controls/pingView.html") })
+        .when("/settings/tools", { templateUrl: cacheBust("app/settings/tools/checkView.html") })
 
         .otherwise({ redirectTo: "/" });
     }];

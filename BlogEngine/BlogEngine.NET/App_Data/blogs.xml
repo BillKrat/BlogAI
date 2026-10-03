@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <blogs>
     <item id="96d5b379-7e1d-4dac-a6ba-1e50db561b04" name="Primary" hostName="" isAnyTextBeforeHostnameAccepted="False" storageContainerName="" virtualPath="~/" isPrimary="True" isActive="True" isSiteAggregation="False" />
+    <item id="1a51ea90-8ff9-4ebe-bd72-161e73b9357d" name="BlogHelp" hostName="" isAnyTextBeforeHostnameAccepted="True" storageContainerName="bloghelp" virtualPath="~/bloghelp" isPrimary="False" isActive="True" isSiteAggregation="False" />
 </blogs>

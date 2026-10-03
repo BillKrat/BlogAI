@@ -71,6 +71,7 @@ namespace BlogEngine.Core
 
             // save the blog for the first time.
             newBlog.Save();
+            Blog.EnsureBlogIsTracked(newBlog);
 
             return newBlog;
         }

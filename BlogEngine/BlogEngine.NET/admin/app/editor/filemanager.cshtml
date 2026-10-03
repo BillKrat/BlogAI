@@ -8,6 +8,7 @@
     }
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
     var userRights = string.Join("','", Security.CurrentUserRights().Select(r => r.Flag).ToArray());
+    var adminCacheVersion = DateTime.UtcNow.Ticks;
     var id = Request["id"];
     var returnUrl = Request["return"];
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content"; }
@@ -31,11 +32,11 @@
         var UserVars = { Name: '@Security.CurrentUser.Identity.Name', IsAdmin: '@Security.IsAdministrator', Rights: ['@Html.Raw(userRights)'] };
         var editVars = { id: '@id', storageLocation: '@BlogConfig.StorageLocation' };
     </script>
-    <script type="text/javascript" src="admin.res.axd"></script>
+    <script type="text/javascript" src="admin.res.axd?v=@adminCacheVersion"></script>
 </head>
 <body class=" @Resources.labels.LangDirection-dir" ng-controller="FileManagerController">
     <div class="filemanager">
-        @Scripts.Render("~/scripts/wysiwyg")
+        @Scripts.RenderFormat("<script src=\"{0}?v=" + adminCacheVersion + "\" type=\"text/javascript\"></script>", "~/scripts/wysiwyg")
         <form id="form" action="" class="file-form">
             <div id="modal-form" class="modal fade">
                 <div class="modal-dialog">

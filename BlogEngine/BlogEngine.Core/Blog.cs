@@ -423,6 +423,34 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
+        /// Ensures a newly created blog is present in the app's in-memory blog list and the persisted blogs.xml registry.
+        /// </summary>
+        /// <param name="blog">The blog instance to track.</param>
+        public static void EnsureBlogIsTracked(Blog blog)
+        {
+            if (blog == null)
+            {
+                return;
+            }
+
+            lock (SyncRoot)
+            {
+                var list = blogs ?? BlogService.FillBlogs().ToList();
+                if (!list.Any(b => b.Id == blog.Id))
+                {
+                    list.Add(blog);
+                }
+
+                blogs = list;
+                SortBlogs();
+
+                // Force the site-wide registry file to reflect the live in-memory list so newly created
+                // blogs are visible to the admin feed dropdown and reload logic without requiring a restart.
+                BlogService.UpdateBlog(blog);
+            }
+        }
+
+        /// <summary>
         /// Marked as ThreadStatic so each thread has its own value.
         /// Need to be careful with this since when using ThreadPool.QueueUserWorkItem,
         /// after a thread is used, it is returned to the thread pool and
