@@ -3,6 +3,7 @@
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   <div id="page" class="page-global">
     <h2 class="page-global-title" runat="server" id="h1Title" ></h2>
+    <%=AdminLinks %>
     <div runat="server" id="divText" />    
     <%=AdminLinks %>
     

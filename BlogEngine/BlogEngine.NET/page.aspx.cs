@@ -167,6 +167,13 @@ public partial class page : BlogBasePage
                 if (sb.Length > 0) { sb.Append(" | "); }
 
                 sb.AppendFormat(
+                    "<a href=\"{0}admin/app/editor/editpage.cshtml\">{1}</a>",
+                    Utils.RelativeWebRoot,
+                    labels.add);
+
+                sb.Append(" | ");
+
+                sb.AppendFormat(
                     "<a href=\"{0}admin/app/editor/editpage.cshtml?id={1}\">{2}</a>",
                     Utils.RelativeWebRoot,
                     this.Page.Id,
