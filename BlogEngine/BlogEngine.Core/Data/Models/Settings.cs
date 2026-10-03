@@ -167,6 +167,7 @@
         public bool EnableCountryInComments { get; set; }
         public bool EnableWebsiteInComments { get; set; }
         public bool ShowLivePreview { get; set; }
+        public bool ShowOnlyPublicPostsToAnonymous { get; set; }
 
         public BlogSettings.CommentsBy CommentProvider { get; set; }
         public bool DisqusDevMode { get; set; }

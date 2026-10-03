@@ -172,10 +172,17 @@
 
 
         /// <summary>
-        /// Show post if: 
-        /// 1. DaysCommentsAreEnabled <> 1
-        /// 2. DaysCommentsAreEnabled == 1 and post has Public category
-        /// 3. DaysCommentsAreEnabled == 1 and user is Authenticated
+        /// When true, visitors who are not signed in only see posts that have
+        /// the category "Public"; signed-in users see everything.
+        /// (Replaces the old convention of setting "Close comments after" to 365.)
+        /// </summary>
+        public bool ShowOnlyPublicPostsToAnonymous { get; set; }
+
+        /// <summary>
+        /// Show post if:
+        /// 1. ShowOnlyPublicPostsToAnonymous is off
+        /// 2. ShowOnlyPublicPostsToAnonymous is on and post has Public category
+        /// 3. ShowOnlyPublicPostsToAnonymous is on and user is Authenticated
         /// </summary>
         /// <param name="post"></param>
         /// <returns></returns>
@@ -183,7 +190,7 @@
         {
             var user = Security.CurrentUser.Identity.Name;
             var isAuthenticated = !string.IsNullOrEmpty(user);
-            if(BlogSettings.Instance.DaysCommentsAreEnabled == 365 && !isAuthenticated)
+            if (ShowOnlyPublicPostsToAnonymous && !isAuthenticated)
             {
                 var isPublic = post.Categories.Any(c => c.Title == "Public");
                 return isPublic;
@@ -1352,6 +1359,13 @@
 
             }
 
+            // Sites that used the old convention ("Close comments after" = 365 meant
+            // "anonymous visitors only see Public posts") keep that behavior until the
+            // setting is saved once; saving writes the new key and ends this migration.
+            if (!dic.ContainsKey("ShowOnlyPublicPostsToAnonymous") && this.DaysCommentsAreEnabled == 365)
+            {
+                this.ShowOnlyPublicPostsToAnonymous = true;
+            }
         }
 
         #endregion

@@ -125,6 +125,7 @@ namespace BlogEngine.Core.Data
             bs.EnableCountryInComments = ns.EnableCountryInComments;
             bs.EnableWebsiteInComments = ns.EnableWebsiteInComments;
             bs.ShowLivePreview = ns.ShowLivePreview;
+            bs.ShowOnlyPublicPostsToAnonymous = ns.ShowOnlyPublicPostsToAnonymous;
 
             bs.CommentProvider = ns.CommentProvider;
             bs.DisqusDevMode = ns.DisqusDevMode;
@@ -242,6 +243,7 @@ namespace BlogEngine.Core.Data
             ns.EnableCountryInComments = bs.EnableCountryInComments;
             ns.EnableWebsiteInComments = bs.EnableWebsiteInComments;
             ns.ShowLivePreview = bs.ShowLivePreview;
+            ns.ShowOnlyPublicPostsToAnonymous = bs.ShowOnlyPublicPostsToAnonymous;
 
             ns.CommentProvider = bs.CommentProvider;
             ns.DisqusDevMode = bs.DisqusDevMode;

@@ -23,7 +23,7 @@
                     <div class="checkbox"><label><input type="checkbox" name="ckShowLivePreview" data-ng-model="settings.ShowLivePreview" data-ng-disabled="settings.IsCommentsEnabled == false || settings.CommentProvider > 0" /> {{lbl.showLivePreview}}</label></div>
                     <div class="checkbox"><label><input type="checkbox" name="ckEnableWebsiteInComments" data-ng-model="settings.EnableWebsiteInComments" data-ng-disabled="settings.IsCommentsEnabled == false || settings.CommentProvider > 0" /> {{lbl.showEnableWebsiteInComments}}</label></div>
                     <div class="form-group">
-                        <label for="closeDaysOptions">{{lbl.closeCommetsAfter}}  (If set to 365 then only Posts that have a category of "Public" will be shown if user is not authorized)</label>
+                        <label for="closeDaysOptions">{{lbl.closeCommetsAfter}}</label>
                         <select class="form-control" id="closeDaysOptions" ng-options="o.OptionName for o in vm.CloseDaysOptions" ng-model="selCloseDays" ng-disabled="settings.IsCommentsEnabled == false || settings.CommentProvider > 0"></select>
                     </div>
                 </div>
@@ -50,6 +50,8 @@
                         <select id="selFacebookLang" class="form-control ltr-form-control" data-ng-options="o.OptionName for o in vm.FacebookLanguages" data-ng-model="selFacebookLanguage"></select>
                     </div>
                 </div>
+                <h4>Post visibility</h4>
+                <div class="checkbox"><label><input type="checkbox" name="ckShowOnlyPublicPostsToAnonymous" data-ng-model="settings.ShowOnlyPublicPostsToAnonymous" /> Visitors who are not signed in only see posts in the category "Public"</label></div>
                 <h4>{{lbl.avatars}}</h4>
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
