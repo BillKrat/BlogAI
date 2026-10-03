@@ -2047,7 +2047,7 @@ namespace BlogEngine.Core.Providers
                     {
 
                         var parms = cmd.Parameters;
-                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), DataStoreBlogId(extensionType).ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("etype"), extensionType.GetHashCode()));
                         parms.Add(conn.CreateParameter(FormatParamName("eid"), extensionId));
 
@@ -2099,7 +2099,7 @@ namespace BlogEngine.Core.Providers
 
                         var p = cmd.Parameters;
 
-                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), DataStoreBlogId(extensionType).ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("type"), extensionType.GetHashCode()));
                         p.Add(conn.CreateParameter(FormatParamName("id"), extensionId));
 
@@ -2135,7 +2135,7 @@ namespace BlogEngine.Core.Providers
                     {
 
                         var p = cmd.Parameters;
-                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), DataStoreBlogId(extensionType).ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("type"), extensionType.GetHashCode()));
                         p.Add(conn.CreateParameter(FormatParamName("id"), extensionId));
 
@@ -2144,6 +2144,26 @@ namespace BlogEngine.Core.Providers
 
                 }
             }
+        }
+
+        /// <summary>
+        /// BlogId that owns a DataStore row. ExtensionManager keeps one global
+        /// ManagedExtension holding every blog's settings, so extension rows must
+        /// all live under the primary blog; per-current-blog rows drift apart and
+        /// whichever blog loads first after a restart wins.
+        /// </summary>
+        private static Guid DataStoreBlogId(ExtensionType extensionType)
+        {
+            if (extensionType == ExtensionType.Extension)
+            {
+                var primary = Blog.Blogs.FirstOrDefault(b => b.IsPrimary);
+                if (primary != null)
+                {
+                    return primary.Id;
+                }
+            }
+
+            return Blog.CurrentInstance.Id;
         }
 
         #endregion
