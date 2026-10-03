@@ -400,7 +400,7 @@
             lock (_syncRoot)
             {
                 Entries.Clear();
-                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
+                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic && !Security.IsRoleRestricted(post)))
                 {
                     AddItem(post);
                     if (!BlogSettings.Instance.EnableCommentSearch)
@@ -414,7 +414,7 @@
                     }
                 }
 
-                foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic))
+                foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic && !Security.IsRoleRestricted(page)))
                 {
                     AddItem(page);
                 }

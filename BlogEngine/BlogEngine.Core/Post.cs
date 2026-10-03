@@ -254,13 +254,9 @@
 
         protected static bool HasRoleAccess(BlogEngine.Core.Post p)
         {
-            if (p.CustomFields != null && p.CustomFields.ContainsKey("Role"))
-            {
-                var customField = p.CustomFields["Role"];
-                var returnValue = Security.GetCurrentUserRoles().ToList().Contains(customField.Value);
-                return returnValue;
-            }
-            return true;
+            // Same rule that Post.IsVisible enforces (comma separated roles,
+            // case-insensitive key), so lists and direct access agree.
+            return Security.IsInRole(p);
         }
 
         /// <summary>

@@ -68,7 +68,7 @@ namespace Adventure.Common
         private static List<Post> ApplicablePublicPosts()
         {
             return Post.ApplicablePosts
-                .Where(post => post != null && post.IsVisibleToPublic)
+                .Where(post => post != null && post.IsVisibleToPublic && !BlogEngine.Core.Security.IsRoleRestricted(post))
                 .ToList();
         }
 

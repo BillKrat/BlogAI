@@ -270,7 +270,7 @@ namespace App_Code.Controls
 						CacheKey, months, null, DateTime.Now.AddHours(CacheTimeoutInHours), Cache.NoSlidingExpiration);
 
 				foreach (
-					var month in Post.ApplicablePosts.Where(post => post.IsVisibleToPublic).Select(
+					var month in Post.ApplicablePosts.Where(post => post.IsVisibleToPublic && Post.IsAuthorizedRole(post)).Select(
 						post => new DateTime(post.DateCreated.Year, post.DateCreated.Month, 1)))
 				{
 					int count;

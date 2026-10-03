@@ -76,7 +76,7 @@ namespace BlogEngine.Core.Data.Services
         private static SortedDictionary<string, int> CreateRawList()
         {
             var dic = new SortedDictionary<string, int>();
-            foreach (var tag in Post.Posts.Where(post => post.IsVisibleToPublic).SelectMany(post => post.Tags))
+            foreach (var tag in Post.Posts.Where(post => post.IsVisibleToPublic && !Security.IsRoleRestricted(post)).SelectMany(post => post.Tags))
             {
                 if (dic.ContainsKey(tag))
                 {

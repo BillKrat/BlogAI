@@ -90,7 +90,7 @@ public class SendPings
             return;
 
         var item = (IPublishable)sender;
-        if (!item.IsVisibleToPublic)
+        if (!item.IsVisibleToPublic || (item is Post && BlogEngine.Core.Security.IsRoleRestricted((Post)item)) || (item is BlogEngine.Core.Page && BlogEngine.Core.Security.IsRoleRestricted((BlogEngine.Core.Page)item)))
             return;
         
         var url = item.AbsoluteLink;

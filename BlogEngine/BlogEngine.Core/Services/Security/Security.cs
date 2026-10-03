@@ -398,6 +398,26 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// True if the post carries a non-empty "Role" custom field. Independent of the
+        /// current user, so it is safe for output that is built once for everybody
+        /// (sitemap, search index, tag cloud, pings, news feed).
+        /// </summary>
+        public static bool IsRoleRestricted(Post post)
+        {
+            return post.CustomFields != null && post.CustomFields.Any(r =>
+                r.Key.ToLower() == "role" && r.Value != null && !string.IsNullOrWhiteSpace(r.Value.Value));
+        }
+
+        /// <summary>
+        /// True if the page carries a non-empty "Role" custom field. See <see cref="IsRoleRestricted(Post)"/>.
+        /// </summary>
+        public static bool IsRoleRestricted(Page page)
+        {
+            return page.CustomFields != null && page.CustomFields.Any(r =>
+                r.Key.ToLower() == "role" && r.Value != null && !string.IsNullOrWhiteSpace(r.Value.Value));
+        }
+
         public static bool IsInRole(Page page)
         {
             // If their is a CustomField then we'll need to see if it is our

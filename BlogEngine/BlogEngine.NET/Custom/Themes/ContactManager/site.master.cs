@@ -11,13 +11,9 @@ public partial class ContactManager : System.Web.UI.MasterPage
     protected static string ShRoot = Utils.ApplicationRelativeWebRoot + "Scripts/syntaxhighlighter/";
     protected static bool HasRoleAccess(BlogEngine.Core.Page p)
     {
-        if(p.CustomFields!=null && p.CustomFields.ContainsKey("Role"))
-        {
-            var customField = p.CustomFields["Role"];
-            var returnValue =  Security.GetCurrentUserRoles().ToList().Contains(customField.Value);
-            return returnValue;
-        }
-        return true;
+        // Same rule that Page.IsVisible enforces (comma separated roles,
+        // case-insensitive key), so the menu and direct access agree.
+        return Security.IsInRole(p);
     }
 
     protected void Page_Load(object sender, EventArgs e)

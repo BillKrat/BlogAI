@@ -49,7 +49,7 @@
                 writer.WriteStartElement("urlset", BlogConfig.SiteMapUrlSet);
 
                 // Posts
-                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
+                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic && !Security.IsRoleRestricted(post)))
                 {
                     writer.WriteStartElement("url");
                     writer.WriteElementString("loc", post.AbsoluteLink.AbsoluteUri.ToString());
@@ -60,7 +60,7 @@
                 }
 
                 // Pages
-                foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic))
+                foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic && !Security.IsRoleRestricted(page)))
                 {
                     writer.WriteStartElement("url");
                     writer.WriteElementString("loc", page.AbsoluteLink.AbsoluteUri);

@@ -26,7 +26,7 @@ namespace BlogEngine.NET.Custom.Widgets
             var months = new SortedDictionary<DateTime, int>(date_Desc);
             var years = new SortedDictionary<int, List<MonthItem>>(int_Desc);
 
-            foreach (var month in Post.ApplicablePosts.Where(post => post.IsVisibleToPublic).
+            foreach (var month in Post.ApplicablePosts.Where(post => post.IsVisibleToPublic && Post.IsAuthorizedRole(post)).
                 Select(post => new DateTime(post.DateCreated.Year, post.DateCreated.Month, 1)))
             {
                 int count;
