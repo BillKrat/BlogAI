@@ -110,7 +110,7 @@
                             <span class="separator separator-1"></span>Powered by 
                                 <a href="https://github.com/BillKrat/BlogEngine.NET" 
                                     target="_blank">BlogEngine.NET</a>
-                                <%=BlogSettings.Instance.Version() %> [BillKrat fork]
+                                <%=BlogSettings.Instance.Version() %> [BillKrat fork version 1.2.<%=ForkBuildVersion %>]
                         </p>
                         <span class="scrollup"></span>
                     </div>

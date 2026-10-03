@@ -9,6 +9,18 @@ public partial class ContactManager : System.Web.UI.MasterPage
     private static Regex reg = new Regex(@"(?<=[^])\t{2,}|(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,11}(?=[<])|(?=[\n])\s{2,}");
 
     protected static string ShRoot = Utils.ApplicationRelativeWebRoot + "Scripts/syntaxhighlighter/";
+    protected string ForkBuildVersion
+    {
+        get
+        {
+            var version = BlogSettings.Instance.Version();
+            var segments = version.Split('.');
+            var ver = string.Join("", segments);
+            return ver;
+            
+        }
+    }
+
     protected static bool HasRoleAccess(BlogEngine.Core.Page p)
     {
         // Same rule that Page.IsVisible enforces (comma separated roles,
