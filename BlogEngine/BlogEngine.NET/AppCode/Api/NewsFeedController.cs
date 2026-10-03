@@ -34,7 +34,7 @@ public class NewsFeedController : ApiController
         catch (Exception ex)
         {
             BlogEngine.Core.Utils.Log("Dashboard news feed", ex);
-            return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Unable to load the dashboard news feed.");
         }
     }
 }
