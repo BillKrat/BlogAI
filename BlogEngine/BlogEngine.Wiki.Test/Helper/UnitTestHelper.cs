@@ -64,10 +64,22 @@ namespace BlogEngine.Wiki.Test.Helper
         /// <returns></returns>
         public static string GetBlogEnginePath(string folder)
         {
-            var returnValue = Directory.GetCurrentDirectory();
-            var offset = returnValue.IndexOf("TestResults");
-            returnValue = string.Format(@"{0}\BlogEngine\{1}", returnValue.Substring(0, offset), folder);
-            return returnValue;
+            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+            while (directory != null)
+            {
+                var directCandidate = Path.Combine(directory.FullName, "BlogEngine.NET", folder);
+                if (Directory.Exists(directCandidate))
+                    return directCandidate;
+
+                var nestedCandidate = Path.Combine(directory.FullName, "BlogEngine", "BlogEngine.NET", folder);
+                if (Directory.Exists(nestedCandidate))
+                    return nestedCandidate;
+
+                directory = directory.Parent;
+            }
+
+            throw new DirectoryNotFoundException("Could not locate the BlogEngine.NET folder for the test data path.");
         }
 
     }
