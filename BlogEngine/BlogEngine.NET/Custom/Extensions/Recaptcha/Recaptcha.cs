@@ -142,7 +142,8 @@
 
                             settings.Help =
                                 $"\n<script type='text/javascript'>\n{JScript}\n</script>\nYou can create your own public key at " +
-                                $"<a href='https://www.google.com/recaptcha/about/'>https://www.google.com/recaptcha/about/</a>. This is used " +
+                                $"<a href='https://console.cloud.google.com/security/recaptcha' target='_blank'>https://console.cloud.google.com/security/recaptcha</a> " +
+                                $"(create a Website key with the checkbox challenge; the private key is its legacy secret under Integration). This is used " +
                                 $"for communication between your website and the recapcha server.<br /><br />Please rememeber you need to " +
                                 $"<span style=\"color:red\">enable extension</span> for reCaptcha to show up on the comments form.<br /><br />" +
                                 $"You can see some statistics on Captcha solving by storing successful attempts. If you're getting spam, this " +
