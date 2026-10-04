@@ -565,7 +565,7 @@ namespace App_Code.Controls
             output.RenderBeginTag("script");
             output.Write(@"var onloadCallback = function () {
                 grecaptcha.render('html_element', {
-                    'sitekey': '6LdaUGwUAAAAAMWPyUb5OSoCgSKxR4AC3liClnfO'
+                    'sitekey': '" + HttpUtility.JavaScriptStringEncode(this.publicKey) + @"'
                 });
             };");
             output.RenderEndTag();
