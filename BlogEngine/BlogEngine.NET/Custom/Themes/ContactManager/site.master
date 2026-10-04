@@ -122,16 +122,26 @@
             links = document.getElementById('social').getElementsByTagName('a');
             for (index = 0; index < links.length; ++index) {
                 link = links[index];
-                // "#" (or "#/") entered as the account means "not used": hide the icon
-                if (/#\/?$/.test(link.getAttribute('href') || '')) { link.parentNode.style.display = "none"; continue; }
-                if (link.href == 'http://facebook.com/') { link.style.display = "none"; }
-                if (link.href == 'http://twitter.com/') { link.style.display = "none"; }
-                if (link.href == 'http://plus.google.com/') { link.style.display = "none"; }
-                if (link.href == 'http://youtube.com/') { link.style.display = "none"; }
-                if (link.href == 'http://linkedin.com/in/') { link.style.display = "none"; }
-                if (link.href == 'http://instagram.com/') { link.style.display = "none"; }
-                if (link.href == 'http://github.com/') { link.style.display = "none"; }
-                if (link.href == '<%=Utils.AbsoluteWebRoot %>') { link.style.display = "none"; }
+
+                if (link.href.indexOf('#') !== -1) {
+                    if (link.parentNode) {
+                        link.parentNode.style.display = "none";
+                    }
+                    continue;
+                }
+
+                if (link.href == 'http://facebook.com/' ||
+                    link.href == 'http://twitter.com/' ||
+                    link.href == 'http://plus.google.com/' ||
+                    link.href == 'http://youtube.com/' ||
+                    link.href == 'http://linkedin.com/in/' ||
+                    link.href == 'http://instagram.com/' ||
+                    link.href == 'http://github.com/' ||
+                    link.href == '<%=Utils.AbsoluteWebRoot %>') {
+                    if (link.parentNode) {
+                        link.parentNode.style.display = "none";
+                    }
+                }
             }
         </script>
         <script src="<%=(Utils.RelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.Theme + "/include/index.js")%>" type="text/javascript"></script>
