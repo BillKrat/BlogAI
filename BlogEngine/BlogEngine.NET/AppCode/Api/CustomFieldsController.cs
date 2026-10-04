@@ -45,8 +45,13 @@ public class CustomFieldsController : ApiController
         {
             repository.ClearCustomFields(items[0].CustomType, items[0].ObjectId);
 
-            foreach (var item in items)
+            // The editor sends no BlogId for newly added rows, which made the
+            // provider's exists-check miss and insert a second row for the same
+            // key (two "Role" rows crashed every post page). Stamp the blog on
+            // every row and collapse same-key rows before saving.
+            foreach (var item in CustomField.Coalesce(items))
             {
+                item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
                 repository.Add(item);
             }
         }

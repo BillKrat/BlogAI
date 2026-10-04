@@ -2014,13 +2014,7 @@
                 if (postFields == null || postFields.Count < 1)
                     return null;
 
-                var fields = new Dictionary<String, CustomField>();
-
-                foreach (var item in postFields)
-                {
-                    fields.Add(item.Key, item);
-                }
-                return fields;
+                return CustomField.ToDictionary(postFields);
             }
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace BlogEngine.Core.Data.Models
 {
     /// <summary>
@@ -40,6 +42,60 @@ namespace BlogEngine.Core.Data.Models
             {
                 return Utils.RemoveIllegalCharacters(Key);
             }
+        }
+
+        /// <summary>
+        /// Collapses fields that share a key (case-insensitive) into one, so the
+        /// editor can never store, and the site never has to choke on, duplicates.
+        /// Duplicate "Role" fields are merged into one comma-separated list (the
+        /// format Security.IsInRole already reads); for any other key the last wins.
+        /// </summary>
+        public static List<CustomField> Coalesce(IEnumerable<CustomField> fields)
+        {
+            var result = new List<CustomField>();
+            foreach (var field in fields)
+            {
+                if (field == null || field.Key == null)
+                    continue;
+
+                var i = result.FindIndex(r => string.Equals(r.Key, field.Key, StringComparison.OrdinalIgnoreCase));
+                if (i < 0)
+                {
+                    result.Add(field);
+                }
+                else if (string.Equals(field.Key, "role", StringComparison.OrdinalIgnoreCase))
+                {
+                    var current = result[i];
+                    var roles = ((current.Value ?? "") + "," + (field.Value ?? ""))
+                        .Split(',')
+                        .Select(r => r.Trim())
+                        .Where(r => r.Length > 0)
+                        .Distinct(StringComparer.OrdinalIgnoreCase);
+
+                    result[i] = new CustomField
+                    {
+                        CustomType = current.CustomType,
+                        ObjectId = current.ObjectId,
+                        BlogId = current.BlogId,
+                        Key = current.Key,
+                        Attribute = current.Attribute,
+                        Value = string.Join(",", roles)
+                    };
+                }
+                else
+                {
+                    result[i] = field;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Key/field dictionary (case-insensitive key) of the coalesced fields.
+        /// </summary>
+        public static Dictionary<string, CustomField> ToDictionary(IEnumerable<CustomField> fields)
+        {
+            return Coalesce(fields).ToDictionary(f => f.Key, f => f, StringComparer.OrdinalIgnoreCase);
         }
     }
 }

@@ -745,13 +745,7 @@
                 if (pageFields == null || pageFields.Count < 1)
                     return null;
 
-                var fields = new Dictionary<String, CustomField>();
-
-                foreach (var item in pageFields)
-                {
-                    fields.Add(item.Key, item);
-                }
-                return fields;
+                return CustomField.ToDictionary(pageFields);
             }
         }
 

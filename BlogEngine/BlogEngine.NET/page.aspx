@@ -1,9 +1,13 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="page" Codebehind="page.aspx.cs" %>
 <%@ Import Namespace="BlogEngine.Core"%>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
-  <div id="page" class="page-global">
+  <div id="page" class="page-global<%= UsePostStyleHeader ? " post post-single" : "" %>">
     <h2 class="page-global-title" runat="server" id="h1Title" ></h2>
+    <% if (UsePostStyleHeader) { %>
+    <div class="post-info Clear"><%=PostInfoHtml %></div>
+    <% } else { %>
     <%=AdminLinks %>
+    <% } %>
     <div runat="server" id="divText" />    
     <%=AdminLinks %>
     
