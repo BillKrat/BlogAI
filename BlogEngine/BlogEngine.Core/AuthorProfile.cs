@@ -482,13 +482,7 @@ namespace BlogEngine.Core
                 if (profileFields == null || profileFields.Count < 1)
                     return null;
 
-                var fields = new Dictionary<String, CustomField>();
-
-                foreach (var item in profileFields)
-                {
-                    fields.Add(item.Key, item);
-                }
-                return fields;
+                return CustomField.ToDictionary(profileFields);
             }
         }
 

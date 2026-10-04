@@ -61,7 +61,17 @@ public partial class page : BlogBasePage
             return; // WLF: ReSharper is stupid and doesn't know that redirect returns this method.... or does it not...?
         }
 
-        this.h1Title.InnerHtml = System.Web.HttpContext.Current.Server.HtmlEncode(pg.Title);
+        var encodedTitle = System.Web.HttpContext.Current.Server.HtmlEncode(pg.Title);
+        if (UsePostStyleHeader)
+        {
+            // same title markup a post uses, so the theme's post styling applies
+            this.h1Title.Attributes["class"] = "post-title";
+            this.h1Title.InnerHtml = "<a href=\"" + PermaLink + "\" class=\"taggedlink\">" + encodedTitle + "</a>";
+        }
+        else
+        {
+            this.h1Title.InnerHtml = encodedTitle;
+        }
 
         var arg = new ServingEventArgs(pg.Content, ServingLocation.SinglePage);
         BlogEngine.Core.Page.OnServing(pg, arg);
@@ -148,6 +158,47 @@ public partial class page : BlogBasePage
 	}
 
     /// <summary>
+    /// True when the active theme styles posts with the "post-title"/"post-info"
+    /// classes (ContactManager), so a page can show the same header as a post.
+    /// Other themes keep the original page header.
+    /// </summary>
+    protected bool UsePostStyleHeader
+    {
+        get
+        {
+            return string.Equals(BlogSettings.Instance.Theme, "ContactManager", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    /// <summary>
+    /// Post-style "date, author, admin links" line of the page header (no comments for pages).
+    /// </summary>
+    public string PostInfoHtml
+    {
+        get
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("<span class=\"post-date\">{0} <span class=\"separator\"></span></span>",
+                this.Page.DateCreated.ToString("d. MMMM yyyy"));
+
+            if (!string.IsNullOrWhiteSpace(this.Page.Author))
+            {
+                var profile = AuthorProfile.GetProfile(this.Page.Author);
+                var name = profile != null && !string.IsNullOrWhiteSpace(profile.DisplayName) ? profile.DisplayName : this.Page.Author;
+                sb.AppendFormat("<span class=\"post-author\"><a href=\"{0}author/{1}{2}\">{3}</a> <span class=\"separator\"></span></span>",
+                    Utils.AbsoluteWebRoot,
+                    Utils.RemoveIllegalCharacters(this.Page.Author),
+                    BlogConfig.FileExtension,
+                    System.Web.HttpContext.Current.Server.HtmlEncode(name));
+            }
+
+            sb.Append("&nbsp;");
+            sb.Append(BuildAdminLinks());
+            return sb.ToString();
+        }
+    }
+
+    /// <summary>
     ///     Gets the admin links to edit and delete a page.
     /// </summary>
     /// <value>The admin links.</value>
@@ -155,49 +206,49 @@ public partial class page : BlogBasePage
     {
         get
         {
-            if (!Security.IsAuthenticated)
-            {
-                return string.Empty;
-            }
-
-            var sb = new StringBuilder();
-
-            if (this.Page.CanUserEdit)
-            {
-                if (sb.Length > 0) { sb.Append(" | "); }
-
-                sb.AppendFormat(
-                    "<a href=\"{0}admin/app/editor/editpage.cshtml\">{1}</a>",
-                    Utils.RelativeWebRoot,
-                    labels.add);
-
-                sb.Append(" | ");
-
-                sb.AppendFormat(
-                    "<a href=\"{0}admin/app/editor/editpage.cshtml?id={1}\">{2}</a>",
-                    Utils.RelativeWebRoot,
-                    this.Page.Id,
-                    labels.edit);
-            }
-
-            if (this.Page.CanUserDelete && !this.Page.HasChildPages)
-            {
-                if (sb.Length > 0) { sb.Append(" | "); }
-
-                sb.AppendFormat(
-                    String.Concat("<a href=\"javascript:void(0);\" onclick=\"if (confirm('", labels.areYouSureDeletePage, "')) location.href='?deletepage={0}'\">{1}</a>"),
-                    this.Page.Id,
-                    labels.delete);
-            }
-
-            if (sb.Length > 0)
-            {
-                sb.Insert(0, "<div id=\"admin\">");
-                sb.Append("</div>");
-            }
-
-            return sb.ToString();
+            var links = BuildAdminLinks();
+            return links.Length == 0 ? string.Empty : "<div id=\"admin\">" + links + "</div>";
         }
+    }
+
+    private string BuildAdminLinks()
+    {
+        if (!Security.IsAuthenticated)
+        {
+            return string.Empty;
+        }
+
+        var sb = new StringBuilder();
+
+        if (this.Page.CanUserEdit)
+        {
+            if (sb.Length > 0) { sb.Append(" | "); }
+
+            sb.AppendFormat(
+                "<a href=\"{0}admin/app/editor/editpage.cshtml\">{1}</a>",
+                Utils.RelativeWebRoot,
+                labels.add);
+
+            sb.Append(" | ");
+
+            sb.AppendFormat(
+                "<a href=\"{0}admin/app/editor/editpage.cshtml?id={1}\">{2}</a>",
+                Utils.RelativeWebRoot,
+                this.Page.Id,
+                labels.edit);
+        }
+
+        if (this.Page.CanUserDelete && !this.Page.HasChildPages)
+        {
+            if (sb.Length > 0) { sb.Append(" | "); }
+
+            sb.AppendFormat(
+                String.Concat("<a href=\"javascript:void(0);\" onclick=\"if (confirm('", labels.areYouSureDeletePage, "')) location.href='?deletepage={0}'\">{1}</a>"),
+                this.Page.Id,
+                labels.delete);
+        }
+
+        return sb.ToString();
     }
 
     /// <summary>

@@ -122,6 +122,8 @@
             links = document.getElementById('social').getElementsByTagName('a');
             for (index = 0; index < links.length; ++index) {
                 link = links[index];
+                // "#" (or "#/") entered as the account means "not used": hide the icon
+                if (/#\/?$/.test(link.getAttribute('href') || '')) { link.parentNode.style.display = "none"; continue; }
                 if (link.href == 'http://facebook.com/') { link.style.display = "none"; }
                 if (link.href == 'http://twitter.com/') { link.style.display = "none"; }
                 if (link.href == 'http://plus.google.com/') { link.style.display = "none"; }
